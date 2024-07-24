@@ -1,0 +1,282 @@
+Python: Decoradores, esos grandes incomprendidos
+ 
+<div class="entry-content">
+						
+<p>¡Hola!</p>
+
+
+
+<p>Hoy vamos a tratar de explicar un tema que me han preguntado muchas veces los compañeros a la hora de trabajar en python.</p>
+
+
+
+<h2 class="wp-block-heading">¿Qué es un decorador?</h2>
+
+
+
+<p>Un decorador no es más que la aplicación del patrón de diseño estructural «Decorator». Este patrón consisten en darle nuevas funcionalidades o modificar una clase o función que ya tenemos definida. </p>
+
+
+
+<p>Si estamos acostumbrados a trabajar en el paradigma OO, la primera solución que nos vendría a la cabeza a la hora de ampliar nuevas funcionalidades sería la de aplicar la herencia y crear un nuevo hijo mediante la herencia. Esto tiene el problema que es estático y por lo tanto deberemos saber a cuantos hijos deberemos crear para añadir la nueva funcionalidad. Pero si queremos añadir una funcionalidad de manera genérica a cualquier objeto(en Python todo son objetos), la mejor solución es crear un decorador que nos permita ampliar la funcionalidad independientemente del objeto que sea.</p>
+
+
+
+<p>Una vez teniendo claro de donde viene el concepto vamos a ver un pequeño caso de uso el cual nos permitirá enteder como crear decoradores basado en funciones o en clases.</p>
+
+
+
+<h2 class="wp-block-heading">Un decorador simple como primer caso de uso</h2>
+
+
+
+<p>Supongamos que tenemos un log especifico desarrollado y queremos que este se ejecute antes de iniciar una función y al finalizar esta función. </p>
+
+
+
+<p>Como buenos programadores que somos, vamos a realizar el análisis de la situación antes de ponernos a programar una línea de código.</p>
+
+
+
+<p>Al analizar el caso de uso nos encontramos una serie de problemas:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Tenemos muchas funciones programadas en el pasado a las que hay que añadir esta funcionalidad</li>
+
+
+
+<li>La cobertura del proyecto es alta y por lo tanto si modificamos mediante la herencia deberemos cambiar todos los test</li>
+
+
+
+<li>Deberemos incorporar esta funcionalidad a todas las funciones que vayamos creando nuevas independientemente de como sean.</li>
+</ul>
+
+
+
+<p>Teniendo este supuesto, pensar en refactorizar el código para añadir la funcionalidad dentro sería un error ya que:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Añadir en cada función las llamadas al log</li>
+
+
+
+<li>Modificar todos los test que están correctos y sabemos que funcionan correctamente</li>
+
+
+
+<li>En un futuro acordarnos de añadir tanto al iniciar como al finalizar la función, la llamada al log</li>
+
+
+
+<li>Crear test que deberan pasar por la funcionalidad de log en cada función que hagamos y verificar que se ejecuta correctamente.</li>
+</ul>
+
+
+
+<p>La solución más inteligente es hacer un decorador,  ya que:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Nos ahorrará modificar los test. Si no modificamos la función, podemos hacer un patch de la función decoradora y los test seguirán siendo correctos y seguros</li>
+
+
+
+<li>Solo necesitaremos hacer un test del decorador</li>
+
+
+
+<li>No modificamos ninguna función vieja, solo la decoramos, haciendo que la cantidad de posibles errores humanos desaparezcan</li>
+
+
+
+<li>Independientemente como sean las funciones nuevas y estén desarrolladas por equipos distintos, solamente deberán añadir el decorador y en los test hacer un patch del decorador.</li>
+</ul>
+
+
+
+<p>Con el análisis realizado nos procedemos a programar.</p>
+
+
+
+<h2 class="wp-block-heading">Decorador basado en funciones sin parámetros</h2>
+
+
+
+<p>Dado el caso de uso, vamos a crear el decorador más simple, el basado en una función y sin argumentos para el decorador. </p>
+
+
+
+<p>Vamos a programarlo y luego analizaremos que es cada parte</p>
+
+
+
+<pre class="wp-block-code"><code>from datetime import datetime
+
+def log(func):
+    def wrapper(*args, **kwargs):
+        log_info(f"Inicio {func.__name__}")
+        func(*args, **kwargs)
+        log_info(f"Fin {func.__name__}")
+
+    return wrapper
+
+def log_info(text):
+    print(f"{datetime.now().strftime('%m/%d/%Y, %H:%M:%S.%f')} {text}")</code></pre>
+
+
+
+<p>Empezamos por el principio,</p>
+
+
+
+<pre class="wp-block-code"><code>def log(func):</code></pre>
+
+
+
+<p>Definimos el decorador como una función que recibe como parámetro una función u objeto que vamos a decorar.</p>
+
+
+
+<pre class="wp-block-code"><code>...
+    def wrapper(*args, **kwargs):
+        log_info(f"Inicio {func.__name__}")
+        func(*args, **kwargs)
+        log_info(f"Fin {func.__name__}")
+...</code></pre>
+
+
+
+<p>Dentro de la función creamos una función, que será la encargada de «decorar». Aquí añadimos la funcionalidad antes y después de ejecutar nuestra función genérica. En nuestro caso estamos diciendo que primero escriba en el log que ha iniciado la función, luego ejecute la función y finalmente vuelva a escribir en el log(que en nuestro caso es un simple print).</p>
+
+
+
+<p>Y finalmente</p>
+
+
+
+<pre class="wp-block-code"><code>....
+    return wrapper</code></pre>
+
+
+
+<p>Es decir, devolveremos la función wrapper que sustituirá al a función creada.</p>
+
+
+
+<p></p>
+
+
+
+<p>Vamos a aplicar nuestro primer decorador, para hacerlo es tan simple como escribir @nombre_de_la_función. Por ejemplo</p>
+
+
+
+<pre class="wp-block-code"><code>@log
+def foo(a, b):
+    return print(a + b)</code></pre>
+
+
+
+<p>Si ejecutamos foo(3,4) obtendremos:</p>
+
+
+
+<pre class="wp-block-code"><code>03/01/2023, 11:47:48.168657 Inicio foo
+7
+03/01/2023, 11:47:48.168697 Fin foo</code></pre>
+
+
+
+<p>¡Ya hemos solucionado el caso de uso de una manera simple!</p>
+
+
+
+<h2 class="wp-block-heading">Decorador basado en funciones con parámetros</h2>
+
+
+
+<p>Ahora que ya hemos entendido como hacer un decorador, queremos poderle pasar parámetros al decorador ya que tenemos casos de usos más complejos, por ejemplo, en vez de hacer un print, ahora queremos que el log escriba en el fichero que le digamos. Pues realizar esta tarea no es muy compleja. </p>
+
+
+
+<pre class="wp-block-code"><code>def log(file):
+    def log_decoradora(func):
+        def wrapper(*args, **kwargs):
+            log_info(file, f"Inicio {func.__name__}")
+            func(*args, **kwargs)
+            log_info(file, f"Fin {func.__name__}")
+
+        return wrapper
+
+    return log_decoradora</code></pre>
+
+
+
+<p>Al decorar </p>
+
+
+
+<pre class="wp-block-code"><code>@log("log.txt")
+def foo(a, b):
+    return print(a + b)</code></pre>
+
+
+
+<p>lo que está haciendo es ejecutar log(file), el cual nos devuelve la función decoradora modificada respecto al valor que le hemos pasado como parámetro. Parece como magia, pero es la gracia de poder pasar y devolver funciones. </p>
+
+
+
+<p>Y por lo tanto si ejecutamos</p>
+
+
+
+<pre class="wp-block-code"><code>Log escrito en el fichero log.txt
+03/01/2023, 11:58:01.357994 Inicio foo
+7
+Log escrito en el fichero log.txt
+03/01/2023, 11:58:01.358025 Fin foo
+</code></pre>
+
+
+
+<h2 class="wp-block-heading">Decorador basado en clases</h2>
+
+
+
+<p>Ya hemos visto como crear decoradores y tendríamos todos los casos de usos cubiertos. Pero hay veces que necesitaremos, por el motivo que sea que los decoradores no sean funciones y sean la instanciación de una clase.</p>
+
+
+
+<p>Para ver esto, vamos a crear un nuevo decorador que hará exáctamente lo mismo que el decorador log.</p>
+
+
+
+<pre class="wp-block-code"><code>class Log:
+    def __init__(self, file):
+        self.file = file
+
+    def __call__(self, func):
+        def wrapper(*args, **kwargs):
+            log_info(self.file, f"Inicio {func.__name__}")
+            func(*args, **kwargs)
+            log_info(self.file, f"Fin {func.__name__}")
+
+        return wrapper</code></pre>
+
+
+
+<p>Cuando decoremos @Log(«fichero»), al instanciar Log(«fichero») nos va a devolver un objeto que tiene guardado el nombre del fichero y por lo tanto hemos modificado el comportamiento del decorador respecto al parámetro que hemos pasado. Como es obvio, ahora el método que deberemos escribir nuestra decoración, será el método __call__, que es el método que se ejecuta si lanzamos un objeto como una función.</p>
+
+
+
+<p>Esta forma de escribir el decorador es mucho más limpia que con funciones, ya que queda muy claro donde se construye el decorador y como se inicializa, por tanto un código mucho más mantenible y pythonico</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-616" class="share-twitter sd-button share-icon" href="https://elcodigoperfecto.blog/2023/03/13/python-decoradores-esos-grandes-incomprendidos/?share=twitter" target="_blank" title="Haz clic para compartir en Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-616" class="share-facebook sd-button share-icon" href="https://elcodigoperfecto.blog/2023/03/13/python-decoradores-esos-grandes-incomprendidos/?share=facebook" target="_blank" title="Haz clic para compartir en Facebook"><span>Facebook</span></a></li><li class="share-end"></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-93837551-616-669f03928bef4" data-src="//widgets.wp.com/likes/index.html?ver=20240723#blog_id=93837551&amp;post_id=616&amp;origin=elcodigoperfecto.wordpress.com&amp;obj_id=93837551-616-669f03928bef4&amp;domain=elcodigoperfecto.blog" data-name="like-post-frame-93837551-616-669f03928bef4" data-title="Me gusta o Compartir"><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Me gusta</span></span> <span class="loading">Cargando...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+</div></div>											</div>

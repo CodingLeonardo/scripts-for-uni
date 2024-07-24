@@ -1,0 +1,354 @@
+¡Acelera tus aplicaciones web con FastAPI! Descubre el poder de este moderno y potente framework para Python
+ 
+<div class="entry-content">
+						
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-18.png"><img data-attachment-id="862" data-permalink="https://elcodigoperfecto.blog/2023/07/31/acelera-tus-aplicaciones-web-con-fastapi-descubre-el-poder-de-este-moderno-y-potente-framework-para-python/imagen-18-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-18.png" data-orig-size="1023,369" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-18" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-18.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-18.png?w=640" tabindex="0" role="button" width="1023" height="369" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-18.png?w=1023" alt="" class="wp-image-862" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-18.png 1023w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-18.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-18.png?w=300 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-18.png?w=768 768w" sizes="(max-width: 1023px) 100vw, 1023px"></a></figure>
+
+
+
+<p>En un mundo donde las aplicaciones web desempeñan un papel crucial en nuestras vidas diarias, elegir el framework correcto para desarrollarlas es esencial. FastAPI ha irrumpido en el mundo de los frameworks de Python, proporcionando una solución rápida, fácil de usar y eficiente. En este artículo, te guiaremos a través de los conceptos clave de FastAPI, sus ventajas y cómo empezar a utilizarlo para tus propios proyectos.</p>
+
+
+
+<p><strong>¿Qué es FastAPI?</strong></p>
+
+
+
+<p>FastAPI es un moderno y potente framework para construir APIs web en Python. Basado en Starlette para el manejo de la asincronía y Pydantic para la validación de datos, FastAPI se ha convertido rápidamente en una opción popular entre los desarrolladores debido a su rendimiento y facilidad de uso.</p>
+
+
+
+<p><strong>Ventajas de FastAPI</strong></p>
+
+
+
+<p>FastAPI ofrece varias ventajas en comparación con otros frameworks de Python, que incluyen:</p>
+
+
+
+<ol class="wp-block-list">
+<li><strong>Alto rendimiento</strong>: FastAPI es uno de los frameworks de Python más rápidos disponibles, superando a otros frameworks populares como Flask y Django en muchas pruebas de rendimiento.</li>
+
+
+
+<li><strong>Documentación automática</strong>: Con FastAPI, la documentación de tu API se genera automáticamente utilizando OpenAPI y JSON Schema, lo que facilita el mantenimiento y la colaboración.</li>
+
+
+
+<li><strong>Validación de datos</strong>: FastAPI utiliza Pydantic para la validación automática de datos, lo que garantiza que los datos que ingresan a tus funciones estén en el formato correcto y cumplan con las restricciones especificadas.</li>
+
+
+
+<li><strong>Soporte nativo para la asincronía</strong>: FastAPI se basa en Starlette, que ofrece soporte nativo para la asincronía utilizando <code>asyncio</code>. Esto permite que tus aplicaciones manejen eficientemente un gran número de conexiones simultáneas.</li>
+
+
+
+<li><strong>Facilidad de uso</strong>: La sintaxis de FastAPI es simple e intuitiva, lo que permite a los desarrolladores construir rápidamente aplicaciones web sin sacrificar la calidad del código.</li>
+</ol>
+
+
+
+<p><strong>Instalación de FastAPI</strong></p>
+
+
+
+<p>Para instalar FastAPI, simplemente ejecuta el siguiente comando en tu terminal:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+pip install fastapi
+</pre></div>
+
+
+<p>Además, también necesitarás instalar un servidor ASGI como Uvicorn para ejecutar tu aplicación FastAPI:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+pip install uvicorn
+</pre></div>
+
+
+<p><strong>Ejemplo básico de FastAPI</strong></p>
+
+
+
+<p>Ahora que tenemos FastAPI instalado, veamos un ejemplo básico de cómo crear una API web simple:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+# main.py
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
+@app.get("/items/{item_id}")
+def read_item(item_id: int, q: str = None):
+    return {"item_id": item_id, "q": q}
+</pre></div>
+
+
+<p>En este ejemplo, hemos importado FastAPI y creado una instancia de la aplicación. Luego, hemos definido dos rutas utilizando el decorador <code>@app.get()</code>. La primera ruta es para la ruta raíz («/») y simplemente devuelve un diccionario con un mensaje de bienvenida. La segunda ruta es para «/items/{item_id}», donde «item_id» es un parámetro de ruta. Esta función también acepta un parámetro de consulta opcional «q».</p>
+
+
+
+<p>Para ejecutar esta aplicación, guarda el archivo como <code>main.py</code> y luego ejecuta el siguiente comando en tu terminal:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+uvicorn main:app --reload
+</pre></div>
+
+
+<p>Ahora, podrás acceder a tu API en <code>http://localhost:8000</code>. Para ver la documentación generada automáticamente de tu API, visita <code>http://localhost:8000/docs</code>.</p>
+
+
+
+<p><strong>Ejemplo intermedio: Integrando con una base de datos</strong></p>
+
+
+
+<p>Ahora, veamos cómo podemos integrar FastAPI con una base de datos para crear una API más completa. En este ejemplo, utilizaremos SQLite y SQLAlchemy para gestionar una lista de tareas. Comencemos instalando SQLAlchemy:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+pip install sqlalchemy
+</pre></div>
+
+
+<p>A continuación, crearemos nuestra base de datos y definiremos el modelo de tarea:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+# models.py
+from sqlalchemy import Boolean, Column, Integer, String, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+DATABASE_URL = "sqlite:///./test.db"
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
+
+class Task(Base):
+    __tablename__ = "tasks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True)
+    description = Column(String, index=True)
+    completed = Column(Boolean, default=False)
+
+</pre></div>
+
+
+<p>Con nuestro modelo de tarea definido, podemos modificar nuestra aplicación FastAPI para incluir rutas para crear, leer, actualizar y eliminar tareas:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+# main.py
+from fastapi import FastAPI, HTTPException
+from fastapi.params import Depends
+from sqlalchemy.orm import Session
+
+from models import Base, engine, Task, SessionLocal
+
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+@app.post("/tasks/")
+def create_task(task: TaskCreate, db: Session = Depends(get_db)):
+    db_task = Task(**task.dict())
+    db.add(db_task)
+    db.commit()
+    db.refresh(db_task)
+    return db_task
+
+@app.get("/tasks/")
+def read_tasks(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    tasks = db.query(Task).offset(skip).limit(limit).all()
+    return tasks
+
+@app.get("/tasks/{task_id}")
+def read_task(task_id: int, db: Session = Depends(get_db)):
+    task = db.query(Task).filter(Task.id == task_id).first()
+    if task is None:
+        raise HTTPException(status_code=404, detail="Task not found")
+    return task
+
+@app.put("/tasks/{task_id}")
+def update_task(task_id: int, task: TaskUpdate, db: Session = Depends(get_db)):
+    db_task = db.query(Task).filter(Task.id == task_id).first()
+    if db_task is None:
+        raise HTTPException(status_code=404, detail="Task not found")
+    for key, value in task.dict().items():
+        if value is not None:
+            setattr(db_task, key, value)
+    db.commit()
+    return db_task
+
+@app.delete("/tasks/{task_id}")
+def delete_task(task_id: int, db: Session = Depends(get_db)):
+    task = db.query(Task).filter(Task.id == task_id).first()
+    if task is None:
+        raise HTTPException(status_code=404, detail="Task not found")
+    db.delete(task)
+    db.commit()
+    return {"detail": "Task deleted"}
+
+</pre></div>
+
+
+<p>En este ejemplo hemos agregado cinco rutas para manejar las operaciones CRUD en nuestra lista de tareas. También hemos creado una función <code>get_db</code> para gestionar la conexión a la base de datos utilizando la técnica de inyección de dependencias de FastAPI.</p>
+
+
+
+<p>Ahora, cuando ejecutes tu aplicación FastAPI, podrás crear, leer, actualizar y eliminar tareas utilizando la API.</p>
+
+
+
+<p><strong>Ejemplo avanzado: Autenticación y autorización</strong></p>
+
+
+
+<p>Finalmente, exploremos cómo agregar autenticación y autorización a nuestra aplicación FastAPI. En este ejemplo, utilizaremos OAuth2 y JSON Web Tokens (JWT) para autenticar a los usuarios. Comienza instalando las dependencias necesarias:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+pip install fastapi-security jwt
+
+</pre></div>
+
+
+<p>A continuación, crearemos un archivo <code>auth.py</code> para manejar la autenticación y autorización:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+# auth.py
+from fastapi import Depends, FastAPI, HTTPException, Security
+from fastapi.security import OAuth2PasswordBearer
+from pydantic import BaseModel
+from typing import Dict
+import jwt
+
+SECRET_KEY = "mysecretkey"
+ALGORITHM = "HS256"
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+class User(BaseModel):
+    username: str
+    email: str = None
+    full_name: str = None
+    disabled: bool = None
+
+def get_user(username: str) -&gt; User:
+    # Aquí debes implementar la lógica para buscar al usuario en tu base de datos
+    pass
+
+def authenticate_user(username: str, password: str) -&gt; User:
+    # Aquí debes implementar la lógica para autenticar al usuario con su nombre de usuario y contraseña
+    pass
+
+def create_access_token(data: Dict, expires_delta=None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+async def get_current_user(token: str = Depends(oauth2_scheme)) -&gt; User:
+    credentials_exception = HTTPException(
+        status_code=HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    user = get_user(username)
+    if user is None:
+        raise credentials_exception
+    return user
+
+async def get_current_active_user(current_user: User = Depends(get_current_user)) -&gt; User:
+    if current_user.disabled:
+        raise HTTPException(status_code=400, detail="Inactive user")
+    return current_user
+
+</pre></div>
+
+
+<p>Con nuestra lógica de autenticación y autorización implementada, podemos modificar nuestra aplicación FastAPI para proteger las rutas que requieren autenticación:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+# main.py
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
+from sqlalchemy.orm import Session
+
+from auth import (create_access_token, get_current_active_user, oauth2_scheme)
+from models import Base, engine, Task, SessionLocal
+
+# Resto del código de main.py...
+
+@app.post("/token", response_model=Token)
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = authenticate_user(form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.username}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
+
+# Modifica las rutas para incluir la dependencia get_current_active_user
+@app.post("/tasks/")
+def create_task(task: TaskCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
+    # Resto del código...
+
+@app.get("/tasks/")
+def read_tasks(skip: int = 0, limit: int = 10, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
+    # Resto del código...
+
+# Continúa modificando las rutas restantes...
+</pre></div>
+
+
+<p>En este ejemplo, hemos agregado una ruta «/token» para permitir a los usuarios obtener tokens de acceso. También hemos modificado nuestras rutas de tareas existentes para incluir la dependencia <code>get_current_active_user</code>, lo que garantiza que solo los usuarios autenticados y activos puedan acceder a estas rutas.</p>
+
+
+
+<p><strong>Conclusión</strong></p>
+
+
+
+<p>En este artículo, hemos explorado FastAPI, un moderno y potente framework para construir APIs web en Python. Hemos cubierto cómo instalar y comenzar a usar FastAPI, así como ejemplos básicos, intermedios y avanzados para ilustrar su poder y flexibilidad. Si buscas un framework de Python rápido, eficiente y fácil de usar, ¡FastAPI podría ser la opción perfecta para ti!</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-861" class="share-twitter sd-button share-icon" href="https://elcodigoperfecto.blog/2023/07/31/acelera-tus-aplicaciones-web-con-fastapi-descubre-el-poder-de-este-moderno-y-potente-framework-para-python/?share=twitter" target="_blank" title="Haz clic para compartir en Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-861" class="share-facebook sd-button share-icon" href="https://elcodigoperfecto.blog/2023/07/31/acelera-tus-aplicaciones-web-con-fastapi-descubre-el-poder-de-este-moderno-y-potente-framework-para-python/?share=facebook" target="_blank" title="Haz clic para compartir en Facebook"><span>Facebook</span></a></li><li class="share-end"></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-93837551-861-669f03911c941" data-src="//widgets.wp.com/likes/index.html?ver=20240723#blog_id=93837551&amp;post_id=861&amp;origin=elcodigoperfecto.wordpress.com&amp;obj_id=93837551-861-669f03911c941&amp;domain=elcodigoperfecto.blog" data-name="like-post-frame-93837551-861-669f03911c941" data-title="Me gusta o Compartir"><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Me gusta</span></span> <span class="loading">Cargando...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+</div></div>											</div>

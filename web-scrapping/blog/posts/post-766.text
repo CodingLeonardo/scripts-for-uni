@@ -1,0 +1,188 @@
+Descubre cómo Ray Tune automatiza el entrenamiento de modelos de Machine Learning en Python
+ 
+<div class="entry-content">
+						
+<p>¡Hola a todos nuestros queridos lectores y amantes del aprendizaje automático! Hoy os traemos un nuevo post de nuestra serie sobre Ray, la increíble herramienta de ejecución paralela y distribuida en Python. En esta ocasión, nos centraremos en una de sus bibliotecas más potentes: Ray Tune. Preparaos para sumergiros en un mundo de optimización de hiperparámetros y entrenamiento automatizado de modelos de Machine Learning. ¡Vamos allá!</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-3.png"><img data-attachment-id="767" data-permalink="https://elcodigoperfecto.blog/2023/05/22/descubre-como-ray-tune-automatiza-el-entrenamiento-de-modelos-de-machine-learning-en-python/imagen-3-3/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-3.png" data-orig-size="1182,372" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-3" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-3.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-3.png?w=640" tabindex="0" role="button" width="1024" height="322" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-3.png?w=1024" alt="" class="wp-image-767" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-3.png?w=1024 1024w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-3.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-3.png?w=300 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-3.png?w=768 768w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-3.png 1182w" sizes="(max-width: 1024px) 100vw, 1024px"></a></figure>
+
+
+
+<p><strong>Ray Tune: ¿Qué es y cómo funciona?</strong></p>
+
+
+
+<p>Ray Tune es una biblioteca de Python para la optimización de hiperparámetros que se ejecuta sobre Ray. Permite realizar búsquedas en el espacio de hiperparámetros de manera eficiente, utilizando algoritmos de optimización bayesianos, evolutivos, de búsqueda en cuadrícula y aleatorios, entre otros. Además, Ray Tune se integra fácilmente con bibliotecas populares de Machine Learning, como TensorFlow, PyTorch y scikit-learn.</p>
+
+
+
+<p><strong>Ejemplo 1: Optimización de hiperparámetros en un modelo de regresión</strong></p>
+
+
+
+<p>Para ilustrar cómo funciona Ray Tune, vamos a optimizar los hiperparámetros de un modelo de regresión lineal utilizando scikit-learn y Ray Tune. Primero, instalemos las bibliotecas necesarias:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+pip install ray[tune] scikit-learn
+</pre></div>
+
+
+<p>Ahora, implementemos el ejemplo:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+import numpy as np
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+from ray import tune
+
+# Generamos datos de ejemplo
+X = np.random.randn(100, 10)
+y = np.random.randn(100)
+
+# Dividimos los datos en conjuntos de entrenamiento y prueba
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+def train_model(config):
+    model = Ridge(alpha=config["alpha"])
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    mse = mean_squared_error(y_test, y_pred)
+    tune.report(mean_squared_error=mse)
+
+# Configuramos el espacio de búsqueda de hiperparámetros
+config = {
+    "alpha": tune.loguniform(1e-5, 1e1),
+}
+
+# Ejecutamos la optimización
+analysis = tune.run(train_model, config=config, num_samples=30)
+
+# Obtenemos el mejor resultado
+best_config = analysis.get_best_config(metric="mean_squared_error", mode="min")
+print("Mejor configuración: ", best_config)
+
+</pre></div>
+
+
+<p>En este ejemplo, generamos un conjunto de datos aleatorios y ajustamos un modelo de regresión lineal Ridge utilizando scikit-learn. Utilizamos Ray Tune para encontrar el mejor valor del hiperparámetro <code>alpha</code>, que controla la regularización L2 del modelo. Ray Tune prueba diferentes valores de <code>alpha</code> y selecciona aquel que minimiza el error cuadrático medio (MSE) en el conjunto de prueba.</p>
+
+
+
+<p><strong>Ejemplo 2: Optimización de hiperparámetros en una red neuronal con PyTorch</strong></p>
+
+
+
+<p>Ahora, vamos a ver cómo utilizar Ray Tune </p>
+
+
+
+<p>para optimizar hiperparámetros de una red neuronal con PyTorch. Primero, instalemos las bibliotecas necesarias:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+pip install ray[tune] torch torchvision
+
+</pre></div>
+
+
+<p>Luego, implementemos el ejemplo:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torchvision import datasets, transforms
+from ray import tune
+
+# Definimos la red neuronal
+class Net(nn.Module):
+    def __init__(self, hidden_size):
+        super(Net, self).__init__()
+        self.hidden_size = hidden_size
+        self.layers = nn.Sequential(
+            nn.Linear(28 * 28, hidden_size),
+            nn.ReLU(),
+            nn.Linear(hidden_size, 10),
+        )
+
+    def forward(self, x):
+        x = x.view(-1, 28 * 28)
+        x = self.layers(x)
+        return x
+
+# Definimos la función de entrenamiento
+def train_model(config):
+    # Cargamos el conjunto de datos MNIST
+    transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
+    train_set = datasets.MNIST("./data", train=True, download=True, transform=transform)
+    train_loader = torch.utils.data.DataLoader(train_set, batch_size=64, shuffle=True)
+
+    # Creamos el modelo, el optimizador y la función de pérdida
+    model = Net(config["hidden_size"])
+    optimizer = optim.SGD(model.parameters(), lr=config["lr"])
+    criterion = nn.CrossEntropyLoss()
+
+    # Entrenamos el modelo durante una época
+    for batch_idx, (data, target) in enumerate(train_loader):
+        optimizer.zero_grad()
+        output = model(data)
+        loss = criterion(output, target)
+        loss.backward()
+        optimizer.step()
+
+    # Evaluamos el modelo
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for data, target in train_loader:
+            output = model(data)
+            _, predicted = torch.max(output.data, 1)
+            total += target.size(0)
+            correct += (predicted == target).sum().item()
+
+    accuracy = correct / total
+    tune.report(accuracy=accuracy)
+
+# Configuramos el espacio de búsqueda de hiperparámetros
+config = {
+    "hidden_size": tune.choice([32, 64, 128]),
+    "lr": tune.loguniform(1e-4, 1e-1),
+}
+
+# Ejecutamos la optimización
+analysis = tune.run(train_model, config=config, num_samples=10)
+
+# Obtenemos el mejor resultado
+best_config = analysis.get_best_config(metric="accuracy", mode="max")
+print("Mejor configuración: ", best_config)
+
+</pre></div>
+
+
+<p>En este ejemplo, creamos una red neuronal simple para clasificar imágenes del conjunto de datos MNIST. Utilizamos Ray Tune para encontrar la mejor combinación de hiperparámetros <code>hidden_size</code> y <code>lr</code> (tamaño de la capa oculta y tasa de aprendizaje, respectivamente). Ray Tune evalúa diferentes combinaciones de hiperparámetros y selecciona la que maximiza la precisión del modelo en el conjunto de entrenamiento.</p>
+
+
+
+<p><strong>Conclusión</strong></p>
+
+
+
+<p>Ray Tune es una herramienta poderosa y versátil para la optimización de hiperparámetros en Python. Puede ser utilizada con diversas bibliotecas de Machine Learning y facilita el proceso de entrenamiento y ajuste de modelos. Si trabajáis con Machine Learning en Python 3.10 (la versión para Python 3.11 todavía está en desarrollo), os animamos a probar Ray Tune y descubrir cómo puede mejorar vuestros proyectos.</p>
+
+
+
+<p>Esperamos que este post os haya sido útil y os haya dejado con ganas de aprender más sobre Ray y sus bibliotecas. No olvidéis que seguiremos explorando otras características y funcionalidades de Ray en futuros posts, así que manteneos atentos para más contenido.</p>
+
+
+
+<p>Si tenéis alguna pregunta, sugerencia o queréis compartir vuestras experiencias utilizando Ray Tune, no dudéis en dejar vuestros comentarios. ¡Estamos deseando escuchar vuestras opiniones y aprender juntos! ¡Hasta la próxima!</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-766" class="share-twitter sd-button share-icon" href="https://elcodigoperfecto.blog/2023/05/22/descubre-como-ray-tune-automatiza-el-entrenamiento-de-modelos-de-machine-learning-en-python/?share=twitter" target="_blank" title="Haz clic para compartir en Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-766" class="share-facebook sd-button share-icon" href="https://elcodigoperfecto.blog/2023/05/22/descubre-como-ray-tune-automatiza-el-entrenamiento-de-modelos-de-machine-learning-en-python/?share=facebook" target="_blank" title="Haz clic para compartir en Facebook"><span>Facebook</span></a></li><li class="share-end"></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-93837551-766-669f0391be913" data-src="//widgets.wp.com/likes/index.html?ver=20240723#blog_id=93837551&amp;post_id=766&amp;origin=elcodigoperfecto.wordpress.com&amp;obj_id=93837551-766-669f0391be913&amp;domain=elcodigoperfecto.blog" data-name="like-post-frame-93837551-766-669f0391be913" data-title="Me gusta o Compartir"><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Me gusta</span></span> <span class="loading">Cargando...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+</div></div>											</div>

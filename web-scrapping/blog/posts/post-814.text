@@ -1,0 +1,205 @@
+¡Revoluciona tus proyectos de Big Data con Delta Lake y Python! La dupla ideal para dominar tus datos a gran escala
+ 
+<div class="entry-content">
+						
+<p>¿Te enfrentas a grandes volúmenes de datos y buscas la solución perfecta para gestionarlos? ¡No busques más! En este artículo, te presentamos Delta Lake y Python, la combinación ideal para manejar grandes cantidades de datos de manera eficiente y confiable. Acompáñanos en un recorrido por el origen, las ventajas y la forma de utilizar esta poderosa herramienta con ejemplos básicos y avanzados. ¡Comencemos!</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-12.png"><img data-attachment-id="816" data-permalink="https://elcodigoperfecto.blog/2023/06/19/revoluciona-tus-proyectos-de-big-data-con-delta-lake-y-python-la-dupla-ideal-para-dominar-tus-datos-a-gran-escala/imagen-12-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-12.png" data-orig-size="1200,630" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-12" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-12.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-12.png?w=640" tabindex="0" role="button" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-12.png?w=1024" alt="" class="wp-image-816" width="751" height="394" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-12.png?w=1024 1024w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-12.png?w=751 751w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-12.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-12.png?w=300 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-12.png?w=768 768w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-12.png 1200w" sizes="(max-width: 751px) 100vw, 751px"></a></figure>
+
+
+
+<h2 class="wp-block-heading">¿Qué es Delta Lake?</h2>
+
+
+
+<p>Delta Lake es un proyecto de código abierto desarrollado por Databricks que proporciona una capa de almacenamiento confiable y escalable para datos masivos en formato de tabla. Está construido sobre Apache Spark y extiende las capacidades de almacenamiento de Parquet para mejorar el rendimiento, la confiabilidad y la simplicidad en el manejo de datos.</p>
+
+
+
+<h2 class="wp-block-heading">Origen de Delta Lake:</h2>
+
+
+
+<p>Delta Lake fue creado por Databricks en 2019 para abordar los desafíos relacionados con la confiabilidad, la escalabilidad y el rendimiento en el procesamiento de Big Data. Su objetivo principal es facilitar la gestión de datos a gran escala y mejorar la eficiencia de las operaciones de lectura y escritura.</p>
+
+
+
+<h2 class="wp-block-heading">Ventajas de Delta Lake frente a otras tecnologías:</h2>
+
+
+
+<ol class="wp-block-list">
+<li><strong>ACID transactions</strong>: Delta Lake garantiza transacciones ACID (Atomicidad, Consistencia, Aislamiento y Durabilidad) para proporcionar una mayor confiabilidad en las operaciones de lectura y escritura.</li>
+
+
+
+<li><strong>Time Travel</strong>: Esta funcionalidad permite acceder a versiones anteriores de los datos, facilitando la auditoría y la recuperación de datos en caso de errores.</li>
+
+
+
+<li><strong>Schema Evolution</strong>: Delta Lake admite la evolución del esquema de datos sin bloquear las operaciones de lectura o escritura, lo que facilita la adaptación a cambios en los datos.</li>
+
+
+
+<li><strong>Optimizaciones de rendimiento</strong>: Al utilizar técnicas como el «compaction» y el «caching», Delta Lake mejora el rendimiento de las operaciones de lectura y escritura en grandes conjuntos de datos.</li>
+</ol>
+
+
+
+<h2 class="wp-block-heading">Motivos para usar Delta Lake:</h2>
+
+
+
+<p>Delta Lake se destaca por su confiabilidad, escalabilidad y rendimiento en el manejo de grandes cantidades de datos. Además, su integración con Python y Apache Spark facilita la manipulación y el análisis de datos en un entorno familiar y versátil.</p>
+
+
+
+<p>Cómo instalar Delta Lake:</p>
+
+
+
+<p>Para usar Delta Lake con Python, primero debes instalar PySpark y Delta Lake mediante pip:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+pip install pyspark delta-lake
+</pre></div>
+
+
+<h2 class="wp-block-heading">Cómo usar Delta Lake:</h2>
+
+
+
+<p>Para utilizar Delta Lake con Python, primero importa las bibliotecas necesarias e inicializa una sesión de Spark:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+from pyspark.sql import SparkSession
+from delta import DeltaTable
+
+spark = SparkSession.builder \
+    .appName("Delta Lake con Python") \
+    .config("spark.jars.packages", "io.delta:delta-core_2.12:1.0.0") \
+    .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
+    .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
+    .getOrCreate()
+
+</pre></div>
+
+
+<h2 class="wp-block-heading">Ejemplos básicos:</h2>
+
+
+
+<ol class="wp-block-list">
+<li>Crear una tabla Delta:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+data = [("A", 1), ("B", 2), ("C", 3)]
+columns = ["letra", "numero"]
+
+df = spark.createDataFrame(data, schema=columns)
+
+df.write.format("delta").mode("overwrite").save("/ruta/tabla_delta")
+
+</pre></div>
+
+
+<ol class="wp-block-list" start="2">
+<li>Leer una tabla Delta:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+tabla_delta = spark.read.format("delta").load("/ruta/tabla_delta")
+tabla_delta.show()
+</pre></div>
+
+
+<ol class="wp-block-list" start="3">
+<li>Agregar datos a una tabla Delta:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+nuevos_datos = [("D", 4), ("E", 5)]
+nuevo_df = spark.createDataFrame(nuevos_datos, schema=columns)
+
+nuevo_df.write.format("delta").mode("append").save("/ruta/tabla_delta")
+
+</pre></div>
+
+
+<ol class="wp-block-list" start="4">
+<li>Actualizar datos en una tabla Delta:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+from pyspark.sql.functions import *
+
+tabla = DeltaTable.forPath(spark, "/ruta/tabla_delta")
+tabla.update(
+    condition=expr("letra = 'A'"),
+    set={"numero": expr("numero + 100")}
+)
+
+</pre></div>
+
+
+<h2 class="wp-block-heading">Ejemplos avanzados:</h2>
+
+
+
+<ol class="wp-block-list">
+<li>Realizar un Time Travel para acceder a versiones anteriores de los datos:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+version_anterior = spark.read.format("delta").option("versionAsOf", 0).load("/ruta/tabla_delta")
+version_anterior.show()
+
+</pre></div>
+
+
+<ol class="wp-block-list" start="2">
+<li>Realizar un «Merge» para actualizar e insertar datos en una sola operación:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+datos_actualizados = [("A", 100), ("B", 200), ("F", 6)]
+df_actualizado = spark.createDataFrame(datos_actualizados, schema=columns)
+
+tabla.alias("t").merge(
+    df_actualizado.alias("s"),
+    "t.letra = s.letra"
+).whenMatchedUpdate(
+    set={"numero": expr("s.numero")}
+).whenNotMatchedInsert(
+    values={"letra": "s.letra", "numero": "s.numero"}
+).execute()
+
+</pre></div>
+
+
+<ol class="wp-block-list" start="3">
+<li>Realizar una «compaction» para mejorar el rendimiento de lectura:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+tabla.vacuum(retentionHours=0)
+</pre></div>
+
+
+<p>Ahora que conoces las bondades de Delta Lake y cómo utilizarlo con Python para manejar grandes cantidades de datos, ¡estás listo para revolucionar tu enfoque en el procesamiento de Big Data! Con Delta Lake y Python, podrás gestionar y analizar datos masivos de manera eficiente y confiable.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-814" class="share-twitter sd-button share-icon" href="https://elcodigoperfecto.blog/2023/06/19/revoluciona-tus-proyectos-de-big-data-con-delta-lake-y-python-la-dupla-ideal-para-dominar-tus-datos-a-gran-escala/?share=twitter" target="_blank" title="Haz clic para compartir en Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-814" class="share-facebook sd-button share-icon" href="https://elcodigoperfecto.blog/2023/06/19/revoluciona-tus-proyectos-de-big-data-con-delta-lake-y-python-la-dupla-ideal-para-dominar-tus-datos-a-gran-escala/?share=facebook" target="_blank" title="Haz clic para compartir en Facebook"><span>Facebook</span></a></li><li class="share-end"></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-93837551-814-669f03913b857" data-src="//widgets.wp.com/likes/index.html?ver=20240723#blog_id=93837551&amp;post_id=814&amp;origin=elcodigoperfecto.wordpress.com&amp;obj_id=93837551-814-669f03913b857&amp;domain=elcodigoperfecto.blog" data-name="like-post-frame-93837551-814-669f03913b857" data-title="Me gusta o Compartir"><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Me gusta</span></span> <span class="loading">Cargando...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+</div></div>											</div>

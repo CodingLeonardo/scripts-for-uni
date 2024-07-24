@@ -1,0 +1,128 @@
+¡Pytest vs Unittest! La batalla definitiva: Descubre por qué Pytest conquista a los desarrolladores de Python
+ 
+<div class="entry-content">
+						<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/logo-1.png"><img data-attachment-id="796" data-permalink="https://elcodigoperfecto.blog/2023/05/29/pytest-vs-unittest-la-batalla-definitiva-descubre-por-que-pytest-conquista-a-los-desarrolladores-de-python/logo-1/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/logo-1.png" data-orig-size="984,181" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="logo-1" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/logo-1.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/logo-1.png?w=640" tabindex="0" role="button" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/logo-1.png?w=984" alt="" class="wp-image-796" width="802" height="147" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/logo-1.png?w=799 799w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/logo-1.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/logo-1.png?w=300 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/logo-1.png?w=768 768w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/logo-1.png 984w" sizes="(max-width: 802px) 100vw, 802px"></a></figure></div>
+
+
+<p>¿Eres de los que aún usan Unittest en sus proyectos de Python? Pues prepárate, porque después de leer este artículo, querrás cambiar a Pytest de inmediato. En esta publicación, te explicaremos por qué Pytest es la mejor opción para tus pruebas en Python, analizando sus ventajas, desventajas y el rendimiento en comparación con Unittest. Además, te mostraremos cinco ejemplos prácticos que te convencerán de que Pytest es el camino a seguir. ¡Empecemos!</p>
+
+
+
+<h2 class="wp-block-heading">Ventajas de Pytest sobre Unittest:</h2>
+
+
+
+<ol class="wp-block-list">
+<li><strong>Sintaxis más sencilla y legible</strong>: Pytest utiliza una sintaxis más simple y fácil de leer que Unittest. No es necesario escribir clases y métodos para cada prueba, solo necesitas funciones y afirmaciones simples (asserts).</li>
+
+
+
+<li><strong>Mejor manejo de fixtures</strong>: Pytest permite crear y gestionar fixtures de manera más sencilla y eficiente, lo que facilita la reutilización de código en tus pruebas.</li>
+
+
+
+<li><strong>Plugins y extensibilidad</strong>: La comunidad de Pytest ha creado una gran cantidad de plugins que puedes utilizar para personalizar y ampliar las funcionalidades de tu entorno de pruebas.</li>
+
+
+
+<li><strong>Parametrización</strong>: Pytest ofrece una forma sencilla y potente de parametrizar las pruebas, lo que te permite probar diferentes entradas y salidas con el mismo código de prueba.</li>
+
+
+
+<li><strong>Compatibilidad con Unittest</strong>: Pytest puede ejecutar pruebas escritas para Unittest sin ningún problema, lo que facilita la transición entre los dos frameworks.</li>
+</ol>
+
+
+
+<h2 class="wp-block-heading">Desventajas de Pytest frente a Unittest:</h2>
+
+
+
+<ol class="wp-block-list">
+<li><strong>Tiempo de aprendizaje</strong>: Aunque Pytest es fácil de aprender, si ya estás familiarizado con Unittest, puede llevarte algún tiempo adaptarte a la nueva sintaxis y características.</li>
+</ol>
+
+
+
+<h2 class="wp-block-heading">Rendimiento: Pytest vs. Unittest</h2>
+
+
+
+<p>Pytest no solo es más fácil de usar y extensible que Unittest, sino que también ofrece un mejor rendimiento. En términos de velocidad, Pytest suele ser más rápido que Unittest, especialmente cuando se trata de pruebas más complejas.</p>
+
+
+
+<h2 class="wp-block-heading">Ejemplo 1: Prueba simple con Pytest</h2>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+def suma(a, b):
+    return a + b
+
+def test_suma():
+    assert suma(1, 2) == 3
+</pre></div>
+
+
+<h2 class="wp-block-heading">Ejemplo 2: Uso de fixtures en Pytest</h2>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+import pytest
+
+@pytest.fixture
+def cliente_db():
+    # Aquí va la configuración del cliente de la base de datos
+    pass
+
+def test_conexion_db(cliente_db):
+    assert cliente_db.conectar() == True
+</pre></div>
+
+
+<h2 class="wp-block-heading">Ejemplo 3: Parametrización en Pytest</h2>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+import pytest
+
+@pytest.mark.parametrize("entrada, salida", [(1, 2), (2, 4), (3, 6)])
+def test_multiplicacion_por_dos(entrada, salida):
+    assert entrada * 2 == salida
+</pre></div>
+
+
+<h2 class="wp-block-heading">Ejemplo 4: Uso de marcas (marks) en Pytest</h2>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+import pytest
+
+@pytest.mark.lento
+def test_proceso_lento():
+    # Código para una prueba que tarda mucho tiempo en ejecutarse
+    pass
+
+@pytest.mark.skip(reason="Esta prueba está en desarrollo")
+def test_en_desarrollo():
+# Código para una prueba que aún no está lista para ejecutarse
+    pass
+</pre></div>
+
+
+<h2 class="wp-block-heading">Ejemplo 5: Personalizar la salida de las pruebas con Pytest</h2>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+def test_division_por_cero():
+    with pytest.raises(ZeroDivisionError, match="division by zero"):
+        resultado = 1 / 0
+</pre></div>
+
+
+<p>Ahora que conoces las ventajas de Pytest y has visto ejemplos claros de su uso, ¿a qué esperas para probarlo en tus proyectos de Python? No solo es más fácil de usar y extensible que Unittest, sino que también ofrece un mejor rendimiento y una gran cantidad de características adicionales que facilitan la escritura y ejecución de tus pruebas. ¡Te aseguramos que no te arrepentirás!</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-784" class="share-twitter sd-button share-icon" href="https://elcodigoperfecto.blog/2023/05/29/pytest-vs-unittest-la-batalla-definitiva-descubre-por-que-pytest-conquista-a-los-desarrolladores-de-python/?share=twitter" target="_blank" title="Haz clic para compartir en Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-784" class="share-facebook sd-button share-icon" href="https://elcodigoperfecto.blog/2023/05/29/pytest-vs-unittest-la-batalla-definitiva-descubre-por-que-pytest-conquista-a-los-desarrolladores-de-python/?share=facebook" target="_blank" title="Haz clic para compartir en Facebook"><span>Facebook</span></a></li><li class="share-end"></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-93837551-784-669f0391a26ac" data-src="//widgets.wp.com/likes/index.html?ver=20240723#blog_id=93837551&amp;post_id=784&amp;origin=elcodigoperfecto.wordpress.com&amp;obj_id=93837551-784-669f0391a26ac&amp;domain=elcodigoperfecto.blog" data-name="like-post-frame-93837551-784-669f0391a26ac" data-title="Me gusta o Compartir"><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Me gusta</span></span> <span class="loading">Cargando...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+</div></div>											</div>

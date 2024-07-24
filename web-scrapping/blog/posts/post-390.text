@@ -1,0 +1,500 @@
+¿Quieres ser un Jedi de la programación? Usa Patrones de construcción en Python
+ 
+<div class="entry-content">
+						
+<p>¡Bienvenidos al mundo de la programación! Si eres un programador experimentado o un recién llegado, seguramente has oído hablar de los patrones de diseño. Estos patrones son soluciones probadas y testeadas para problemas comunes de programación, que te permiten escribir código más limpio, legible y escalable. En esta ocasión, vamos a centrarnos en los patrones de construcción, una de las tres categorías principales de patrones de diseño.</p>
+
+
+
+<p>Para aquellos que no estén familiarizados con los patrones de construcción, estos patrones se utilizan para crear objetos de manera eficiente y flexible. A menudo se utilizan en la creación de estructuras de objetos complejas o para objetos que requieren una inicialización costosa. Si eres fanático de las películas de ciencia ficción, piensa en los patrones de construcción como la «Fuerza» de la programación, un conocimiento poderoso que puede ayudarte a crear cualquier cosa que puedas imaginar.</p>
+
+
+
+<p>En este artículo, vamos a explorar los 7 patrones de construcción más importantes que debes conocer para llevar tu programación al siguiente nivel. Desde el patrón de fábrica hasta el patrón de construcción del prototipo, explicaremos cómo funcionan, cómo se aplican y proporcionaremos ejemplos de código en Python 3.11 para que puedas ver cómo funcionan en la práctica. Así que, ¡prepárate para subir de nivel en la programación y explorar el mundo de los patrones de construcción!</p>
+
+
+
+<h2 class="wp-block-heading">Patrón de Diseño Factory</h2>
+
+
+
+<p>El patrón Factory se utiliza para crear objetos sin especificar la clase exacta de objeto que se creará. En lugar de crear objetos directamente usando el constructor, se utiliza una interfaz común que encapsula el proceso de creación.</p>
+
+
+
+<p>Para ilustrar esto, imaginemos que estamos desarrollando un videojuego en el que necesitamos crear personajes. En lugar de crear los personajes directamente, podemos utilizar una fábrica que se encargue de crearlos por nosotros. Para ello, creamos una clase abstracta llamada Personaje, que define una interfaz común para la creación de personajes. A continuación, creamos subclases de Personaje para cada tipo de personaje que necesitamos, como Guerrero, Mago, Arquero, etc. Estas subclases implementan la interfaz de Personaje y proporcionan la lógica necesaria para crear el tipo de personaje correspondiente.</p>
+
+
+
+<p>El siguiente ejemplo de código muestra cómo implementar el patrón Factory en Python:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+from abc import ABC, abstractmethod
+
+class Personaje(ABC):
+    @abstractmethod
+    def atacar(self):
+        pass
+
+class Guerrero(Personaje):
+    def atacar(self):
+        print("El guerrero ataca con su espada.")
+
+class Mago(Personaje):
+    def atacar(self):
+        print("El mago lanza un hechizo.")
+
+class Arquero(Personaje):
+    def atacar(self):
+        print("El arquero dispara una flecha.")
+
+class FabricaPersonajes:
+    def crear_personaje(self, tipo):
+        if tipo == "guerrero":
+            return Guerrero()
+        elif tipo == "mago":
+            return Mago()
+        elif tipo == "arquero":
+            return Arquero()
+
+# Ejemplo de uso
+fabrica = FabricaPersonajes()
+personaje1 = fabrica.crear_personaje("guerrero")
+personaje2 = fabrica.crear_personaje("mago")
+personaje3 = fabrica.crear_personaje("arquero")
+personaje1.atacar()
+personaje2.atacar()
+personaje3.atacar()
+
+</pre></div>
+
+
+<p>En este ejemplo, creamos las clases abstractas Personaje y FabricaPersonajes, así como las subclases Guerrero, Mago y Arquero que implementan la interfaz de Personaje. Después, creamos la fábrica FabricaPersonajes, que se encarga de crear los personajes a partir del tipo de personaje especificado. Finalmente, utilizamos la fábrica para crear tres personajes diferentes y hacerlos atacar.</p>
+
+
+
+<p>Este es solo un ejemplo de cómo puedes utilizar el patrón Factory en Python para crear objetos de manera flexible y eficiente. A continuación, vamos a ver otro patrón de construcción: el patrón Abstract Factory.</p>
+
+
+
+<h2 class="wp-block-heading">Patrón de Diseño Abstract Factory</h2>
+
+
+
+<p>El patrón Abstract Factory es similar al patrón Factory, pero se utiliza para crear familias de objetos relacionados entre sí, en lugar de objetos individuales. En otras palabras, el patrón Abstract Factory proporciona una interfaz para crear una familia de objetos relacionados, sin especificar su clase concreta.</p>
+
+
+
+<p>Por ejemplo, imaginemos que estamos desarrollando un juego de estrategia en el que tenemos diferentes tipos de tropas, pero cada tipo de tropa puede tener diferentes habilidades y atributos, dependiendo de la civilización a la que pertenecen. Podemos utilizar el patrón Abstract Factory para crear una fábrica de tropas para cada civilización, que cree tropas con habilidades y atributos específicos para esa civilización.</p>
+
+
+
+<p>El siguiente ejemplo de código muestra cómo implementar el patrón Abstract Factory en Python:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+from abc import ABC, abstractmethod
+
+# Productos abstractos
+class Soldado(ABC):
+    @abstractmethod
+    def atacar(self):
+        pass
+
+class Arquero(ABC):
+    @abstractmethod
+    def disparar(self):
+        pass
+
+# Productos concretos
+class SoldadoIngles(Soldado):
+    def atacar(self):
+        print("El soldado inglés ataca con una espada.")
+
+class ArqueroIngles(Arquero):
+    def disparar(self):
+        print("El arquero inglés dispara una flecha.")
+
+class SoldadoEspanol(Soldado):
+    def atacar(self):
+        print("El soldado español ataca con una lanza.")
+
+class ArqueroEspanol(Arquero):
+    def disparar(self):
+        print("El arquero español dispara una flecha envenenada.")
+
+# Fábricas abstractas
+class FabricaTropas(ABC):
+    @abstractmethod
+    def crear_soldado(self):
+        pass
+
+    @abstractmethod
+    def crear_arquero(self):
+        pass
+
+# Fábricas concretas
+class FabricaTropasInglesa(FabricaTropas):
+    def crear_soldado(self):
+        return SoldadoIngles()
+
+    def crear_arquero(self):
+        return ArqueroIngles()
+
+class FabricaTropasEspanola(FabricaTropas):
+    def crear_soldado(self):
+        return SoldadoEspanol()
+
+    def crear_arquero(self):
+        return ArqueroEspanol()
+
+# Ejemplo de uso
+fabrica_inglesa = FabricaTropasInglesa()
+soldado_ingles = fabrica_inglesa.crear_soldado()
+arquero_ingles = fabrica_inglesa.crear_arquero()
+soldado_ingles.atacar()
+arquero_ingles.disparar()
+
+fabrica_espanola = FabricaTropasEspanola()
+soldado_espanol = fabrica_espanola.crear_soldado()
+arquero_espanol = fabrica_espanola.crear_arquero()
+soldado_espanol.atacar()
+arquero_espanol.disparar()
+
+</pre></div>
+
+
+<p>En este ejemplo, creamos las clases abstractas Soldado, Arquero y FabricaTropas, así como las subclases SoldadoIngles, ArqueroIngles, SoldadoEspanol y ArqueroEspanol que implementan la interfaz de los productos abstractos. Después, creamos las fábricas FabricaTropasInglesa y FabricaTropasEspanola, que crean los soldados y arqueros específicos para cada civilización. Finalmente, utilizamos las fábricas para crear tropas inglesas y españolas con habilidades y atributos específicos para cada civilización.</p>
+
+
+
+<p>Este es solo otro ejemplo de cómo puedes utilizar el patrón Abstract Factory en Python para crear familias de objetos relacionados entre sí de manera eficiente y flexible. A continuación, vamos a ver otro patrón de construcción: el patrón Builder.</p>
+
+
+
+<h2 class="wp-block-heading">Patrón de Diseño Builder</h2>
+
+
+
+<p>El patrón Builder se utiliza para crear objetos complejos paso a paso, separando el proceso de construcción del objeto de su representación final. Esto permite que el mismo proceso de construcción pueda crear diferentes representaciones del mismo objeto.</p>
+
+
+
+<p>Por ejemplo, imaginemos que estamos desarrollando un juego en el que tenemos diferentes tipos de personajes, cada uno con habilidades y atributos únicos. En lugar de crear cada personaje directamente con el constructor, podemos utilizar el patrón Builder para construir los personajes paso a paso y crear diferentes representaciones del mismo personaje.</p>
+
+
+
+<p>El siguiente ejemplo de código muestra cómo implementar el patrón Builder en Python:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+class Personaje:
+    def __init__(self):
+        self.nombre = None
+        self.clase = None
+        self.raza = None
+        self.nivel = None
+        self.arma = None
+
+    def __str__(self):
+        return f"{self.nombre} ({self.raza} {self.clase}), nivel {self.nivel}. Arma: {self.arma}"
+
+class ConstructorPersonaje:
+    def __init__(self):
+        self.personaje = Personaje()
+
+    def construir_nombre(self, nombre):
+        self.personaje.nombre = nombre
+
+    def construir_clase(self, clase):
+        self.personaje.clase = clase
+
+    def construir_raza(self, raza):
+        self.personaje.raza = raza
+
+    def construir_nivel(self, nivel):
+        self.personaje.nivel = nivel
+
+    def construir_arma(self, arma):
+        self.personaje.arma = arma
+
+    def obtener_personaje(self):
+        return self.personaje
+
+# Ejemplo de uso
+constructor = ConstructorPersonaje()
+constructor.construir_nombre("Aragorn")
+constructor.construir_clase("Guerrero")
+constructor.construir_raza("Humano")
+constructor.construir_nivel(30)
+constructor.construir_arma("Espada Andúril")
+personaje = constructor.obtener_personaje()
+print(personaje)
+
+</pre></div>
+
+
+<p>En este ejemplo, creamos la clase Personaje y la clase ConstructorPersonaje, que se encarga de construir los personajes paso a paso. Utilizando el constructor, podemos construir diferentes representaciones del mismo personaje, en función de los parámetros que le proporcionamos.</p>
+
+
+
+<p>Este es solo un ejemplo de cómo puedes utilizar el patrón Builder en Python para crear objetos complejos de manera eficiente y flexible. A continuación, vamos a ver el patrón de diseño Prototype.</p>
+
+
+
+<h2 class="wp-block-heading">Patrón de Diseño Prototype</h2>
+
+
+
+<p>El patrón Prototype se utiliza para crear nuevos objetos a partir de un objeto existente, clonándolo y modificando las partes necesarias. Esto permite crear objetos complejos de manera eficiente, sin tener que crear cada objeto desde cero.</p>
+
+
+
+<p>Por ejemplo, imaginemos que estamos desarrollando un juego en el que tenemos diferentes tipos de enemigos, pero cada enemigo comparte algunas características comunes, como la vida y la fuerza. En lugar de crear cada enemigo directamente, podemos utilizar el patrón Prototype para clonar un enemigo existente y modificar las partes necesarias para crear un nuevo enemigo.</p>
+
+
+
+<p>El siguiente ejemplo de código muestra cómo implementar el patrón Prototype en Python:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+from copy import deepcopy
+
+class Enemigo:
+    def __init__(self):
+        self.nombre = None
+        self.vida = None
+        self.fuerza = None
+
+    def __str__(self):
+        return f"{self.nombre}, vida: {self.vida}, fuerza: {self.fuerza}"
+
+    def clonar(self):
+        return deepcopy(self)
+
+# Ejemplo de uso
+enemigo_original = Enemigo()
+enemigo_original.nombre = "Orco"
+enemigo_original.vida = 100
+enemigo_original.fuerza = 20
+
+print(f"Enemigo original: {enemigo_original}")
+
+enemigo_clonado = enemigo_original.clonar()
+enemigo_clonado.nombre = "Orco jefe"
+enemigo_clonado.vida = 200
+enemigo_clonado.fuerza = 30
+
+print(f"Enemigo clonado: {enemigo_clonado}")
+
+</pre></div>
+
+
+<p>En este ejemplo, creamos la clase Enemigo, que tiene algunas características comunes, como la vida y la fuerza. Utilizando la función clonar, podemos clonar un enemigo existente y modificar las partes necesarias para crear un nuevo enemigo.</p>
+
+
+
+<p>Este es solo un ejemplo de cómo puedes utilizar el patrón Prototype en Python para crear nuevos objetos a partir de objetos existentes de manera eficiente y flexible. A continuación, vamos a ver el patrón de diseño Singleton.</p>
+
+
+
+<h2 class="wp-block-heading">Patrón de Diseño Singleton</h2>
+
+
+
+<p>El patrón Singleton se utiliza para asegurar que solo haya una instancia de una clase en todo el programa. Esto puede ser útil cuando tenemos recursos compartidos, como bases de datos o archivos, que deben ser accedidos por múltiples objetos.</p>
+
+
+
+<p>El siguiente ejemplo de código muestra cómo implementar el patrón Singleton en Python:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+class Configuracion:
+    __instance = None
+
+    def __new__(cls):
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+        return cls.__instance
+
+    def __init__(self):
+        self.valor1 = "Valor 1"
+        self.valor2 = "Valor 2"
+
+# Ejemplo de uso
+configuracion1 = Configuracion()
+configuracion2 = Configuracion()
+print(configuracion1 == configuracion2)
+
+</pre></div>
+
+
+<p>En este ejemplo, creamos la clase Configuracion utilizando el patrón Singleton. Utilizando el método <strong>new</strong>, aseguramos que solo haya una instancia de la clase en todo el programa.</p>
+
+
+
+<p>Este es solo un ejemplo de cómo puedes utilizar el patrón Singleton en Python para asegurarte de que solo haya una instancia de una clase en todo el programa.</p>
+
+
+
+<h2 class="wp-block-heading">Patrón de Diseño Adapter</h2>
+
+
+
+<p>El patrón Adapter se utiliza para convertir una interfaz existente en otra interfaz esperada por los clientes, permitiendo que objetos incompatibles trabajen juntos. Esto puede ser útil cuando trabajamos con código legado o con código de terceros que no se ajusta a nuestras necesidades.</p>
+
+
+
+<p>Por ejemplo, imaginemos que estamos trabajando en un proyecto que utiliza una librería de gráficos que tiene una interfaz obsoleta, y queremos utilizar una nueva librería de gráficos con una interfaz diferente. En lugar de tener que modificar todo nuestro código para trabajar con la nueva librería, podemos utilizar el patrón Adapter para convertir la interfaz de la nueva librería a la interfaz de la librería obsoleta.</p>
+
+
+
+<p>El siguiente ejemplo de código muestra cómo implementar el patrón Adapter en Python:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+class LibreriaAntigua:
+    def dibujar_rectangulo(self, x1, y1, x2, y2):
+        print(f"Dibujando rectángulo en ({x1}, {y1}) y ({x2}, {y2})")
+
+class Rectangulo:
+    def __init__(self, x1, y1, x2, y2):
+        self.x1, self.y1, self.x2, self.y2 = x1, y1, x2, y2
+
+class AdaptadorRectangulo:
+    def __init__(self, rectangulo):
+        self.rectangulo = rectangulo
+
+    def dibujar(self):
+        x1, y1, x2, y2 = self.rectangulo.x1, self.rectangulo.y1, self.rectangulo.x2, self.rectangulo.y2
+        libreria_antigua = LibreriaAntigua()
+        libreria_antigua.dibujar_rectangulo(x1, y1, x2, y2)
+
+# Ejemplo de uso
+rectangulo = Rectangulo(10, 10, 20, 20)
+adaptador = AdaptadorRectangulo(rectangulo)
+adaptador.dibujar()
+
+</pre></div>
+
+
+<p>En este ejemplo, creamos la clase LibreriaAntigua con una interfaz obsoleta, la clase Rectangulo con los datos de un rectángulo y la clase AdaptadorRectangulo que se encarga de convertir la interfaz de Rectangulo en la interfaz esperada por la LibreriaAntigua. Utilizando el adaptador, podemos dibujar un rectángulo utilizando la librería obsoleta sin tener que modificar el código existente.</p>
+
+
+
+<p>Este es solo un ejemplo de cómo puedes utilizar el patrón Adapter en Python para convertir una interfaz existente en otra interfaz esperada por los clientes de manera eficiente y flexible. A continuación, vamos a ver el patrón Bridge.</p>
+
+
+
+<h2 class="wp-block-heading">Patrón de Diseño Bridge</h2>
+
+
+
+<p>El patrón Bridge se utiliza para separar la abstracción de su implementación, permitiendo que ambas puedan variar independientemente. Esto puede ser útil cuando queremos evitar una explosión combinatoria de clases, lo que puede ocurrir cuando se combinan múltiples jerarquías de clases.</p>
+
+
+
+<p>Por ejemplo, imaginemos que estamos trabajando en un proyecto que tiene múltiples plataformas y múltiples tipos de dispositivos. En lugar de tener que crear múltiples jerarquías de clases para manejar todas las combinaciones posibles de plataformas y dispositivos, podemos utilizar el patrón Bridge para separar la abstracción de la plataforma de la abstracción del dispositivo. Esto nos permite cambiar y combinar diferentes plataformas y dispositivos de manera flexible y sin tener que crear nuevas clases para cada combinación posible. </p>
+
+
+
+<p>El siguiente ejemplo de código muestra cómo implementar el patrón Bridge en Python:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+class Plataforma:
+    def __init__(self, implementacion):
+        self.implementacion = implementacion
+
+    def operacion(self):
+        self.implementacion.operacion_imp()
+
+class Implementacion:
+    def operacion_imp(self):
+        pass
+
+class ImplementacionA(Implementacion):
+    def operacion_imp(self):
+        print("Implementación A")
+
+class ImplementacionB(Implementacion):
+    def operacion_imp(self):
+        print("Implementación B")
+
+# Ejemplo de uso
+plataforma1 = Plataforma(ImplementacionA())
+plataforma1.operacion()
+
+plataforma2 = Plataforma(ImplementacionB())
+plataforma2.operacion()
+
+</pre></div>
+
+
+<p>En este ejemplo, creamos la clase Plataforma que se encarga de utilizar una implementación concreta de la clase Implementacion para llevar a cabo una operación. Creamos las clases ImplementacionA e ImplementacionB que implementan la operación de manera diferente. Utilizando la clase Plataforma, podemos operar con diferentes implementaciones de manera flexible y sin tener que crear nuevas clases para cada combinación posible.</p>
+
+
+
+<p>Este es solo un ejemplo de cómo puedes utilizar el patrón Bridge en Python para separar la abstracción de su implementación y evitar una explosión combinatoria de clases. Con esto terminamos de explicar los 7 patrones de construcción más importantes que debes conocer para llevar tu programación al siguiente nivel.</p>
+
+
+
+<h2 class="wp-block-heading">Conclusión</h2>
+
+
+
+<p>En resumen, los patrones de construcción son una herramienta poderosa para ayudarte a crear objetos de manera eficiente y flexible en tus proyectos de programación. En este artículo hemos explorado los 7 patrones de construcción más importantes que debes conocer para llevar tu programación al siguiente nivel en Python. Desde el patrón Factory hasta el patrón Singleton, hemos cubierto los fundamentos de cada patrón y proporcionado ejemplos de código para ayudarte a aplicarlos en tus propios proyectos.</p>
+
+
+
+<p>Es importante destacar que los patrones de construcción no son una solución universal para todos los problemas de programación. Cada patrón tiene sus propias fortalezas y debilidades, y es importante comprender cuál es el mejor patrón para cada situación.</p>
+
+
+
+<p>Esperamos que este artículo te haya resultado útil y te haya dado una comprensión más profunda de los patrones de construcción en Python.</p>
+
+
+
+<h2 class="wp-block-heading">Bibliografía</h2>
+
+
+
+<ul class="wp-block-list">
+<li>Gamma, E., Helm, R., Johnson, R., &amp; Vlissides, J. (1995). Design Patterns: Elements of Reusable Object-Oriented Software. Addison-Wesley Professional.</li>
+</ul>
+
+
+
+<h2 class="wp-block-heading">Recomendaciones</h2>
+
+
+
+<p>Si te interesa aprender más sobre patrones de diseño, te recomendamos algunos recursos que pueden ser de ayuda:</p>
+
+
+
+<ul class="wp-block-list">
+<li>«Head First Design Patterns» de Eric Freeman, Elisabeth Freeman, Bert Bates y Kathy Sierra.</li>
+
+
+
+<li>«Design Patterns in Python» de Rahul Singh.</li>
+
+
+
+<li>«Refactoring: Improving the Design of Existing Code» de Martin Fowler.</li>
+</ul>
+
+
+
+<p>También te recomendamos que sigas practicando la implementación de patrones de construcción en tus proyectos para mejorar tu comprensión y habilidades en el uso de estas herramientas en Python.</p>
+
+
+
+<p></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-390" class="share-twitter sd-button share-icon" href="https://elcodigoperfecto.blog/2023/04/24/quieres-ser-un-jedi-de-la-programacion-usa-patrones-de-construccion-en-python/?share=twitter" target="_blank" title="Haz clic para compartir en Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-390" class="share-facebook sd-button share-icon" href="https://elcodigoperfecto.blog/2023/04/24/quieres-ser-un-jedi-de-la-programacion-usa-patrones-de-construccion-en-python/?share=facebook" target="_blank" title="Haz clic para compartir en Facebook"><span>Facebook</span></a></li><li class="share-end"></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-93837551-390-669f039278917" data-src="//widgets.wp.com/likes/index.html?ver=20240723#blog_id=93837551&amp;post_id=390&amp;origin=elcodigoperfecto.wordpress.com&amp;obj_id=93837551-390-669f039278917&amp;domain=elcodigoperfecto.blog" data-name="like-post-frame-93837551-390-669f039278917" data-title="Me gusta o Compartir"><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Me gusta</span></span> <span class="loading">Cargando...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+</div></div>											</div>

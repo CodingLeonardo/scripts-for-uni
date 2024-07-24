@@ -1,0 +1,464 @@
+Machine Learning: Apriori, un algoritmo para generar reglas de asociación
+ 
+<div class="entry-content">
+						
+<p>¡Hola!</p>
+
+
+
+<p>Hoy vamos a ver un algoritmo que cuando estudié minería de datos me sorprendió por la cantidad de posibilidades que nos brindaba y especialmente poder estudiar el comportamiento humano, prediciendo decisiones que tiene el consumidor.</p>
+
+
+
+<p>El algoritmo Apriori, nos proporciona una manera de obtener una serie de reglas de asociación basadas en una base de datos de transacciones. Tenemos que tener en cuenta que el concepto transacción se puede considerar una evento, por ejemplo:</p>
+
+
+
+<ul class="wp-block-list">
+<li>La cesta de la compra en un supermercado.</li>
+
+
+
+<li>Los libros que compra un cliente en una librería.</li>
+
+
+
+<li>Las páginas web visitadas por un usuario.</li>
+
+
+
+<li>Las características que aparecen de forma conjunta.</li>
+</ul>
+
+
+
+<p>Por lo tanto, podríamos obtener que probabilidad hay que compre un producto B si este cliente ya ha comprando un producto A, que escuche una canción si antes ha escuchado otra y así infinitud de posibilidades.</p>
+
+
+
+<h1 class="wp-block-heading">Introducción</h1>
+
+
+
+<p>En primer lugar, deberemos tener claro cual es el conjunto de datos que vamos a trabajar. Este estará formado por una lista de transacciones, por ejemplo puede ser que compra cada cliente en el supermercado:</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen.png"><img data-attachment-id="547" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-7/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen.png" data-orig-size="503,446" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen.png?w=503" tabindex="0" role="button" width="503" height="446" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen.png?w=503" alt="" class="wp-image-547" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen.png 503w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen.png?w=300 300w" sizes="(max-width: 503px) 100vw, 503px"></a></figure>
+
+
+
+<p>Una vez tenemos esto claro, como mátematico me siento en la obligación de definir una serie de conceptos con los que vamos a trabajar, también algunas propiedades que son usadas para optimizar, no te asustes, lo voy a redactar de la manera más didáctica posible.</p>
+
+
+
+<h2 class="wp-block-heading">Regla de asociación</h2>
+
+
+
+<p>Una regla de asociación no es más que una correspondencia entre itemsets. Si tenemos dos itemsets X, Y, la regla la escribiremos de esta manera:</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-1.png"><img data-attachment-id="549" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-1-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-1.png" data-orig-size="59,14" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-1" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-1.png?w=59" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-1.png?w=59" tabindex="0" role="button" width="59" height="14" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-1.png?w=59" alt="" class="wp-image-549"></a></figure>
+
+
+
+<p>X es el antecedente de la regla e Y el consecuente.</p>
+
+
+
+<p><br>Algunos ejemplos:</p>
+
+
+
+<ul class="wp-block-list">
+<li>{revistas} → {libros}</li>
+
+
+
+<li>{libros} → {revistas}</li>
+
+
+
+<li>{azúcar, fondant} → {colorante}</li>
+
+
+
+<li>{fondant} → {azúcar, colorante}</li>
+</ul>
+
+
+
+<h2 class="wp-block-heading">Soporte</h2>
+
+
+
+<p>El soporte es el número de veces que ha aparecido el itemset en las transacciones dividido por el numero total de transacciones. Es decir es la probabilidad que ese itemset ocurra, matemáticamente lo escribiremos:</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-2.png"><img data-attachment-id="551" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-2-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-2.png" data-orig-size="403,64" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-2" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-2.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-2.png?w=403" tabindex="0" role="button" width="403" height="64" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-2.png?w=403" alt="" class="wp-image-551" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-2.png 403w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-2.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-2.png?w=300 300w" sizes="(max-width: 403px) 100vw, 403px"></a></figure>
+
+
+
+<p>El soporte tiene una serie de propiedades interesantes:</p>
+
+
+
+<h3 class="wp-block-heading"><strong>Propiedad de antimonotonía</strong></h3>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-3.png"><img data-attachment-id="553" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-3-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-3.png" data-orig-size="281,19" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-3" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-3.png?w=281" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-3.png?w=281" tabindex="0" role="button" loading="lazy" width="281" height="19" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-3.png?w=281" alt="" class="wp-image-553" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-3.png 281w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-3.png?w=150 150w" sizes="(max-width: 281px) 100vw, 281px"></a></figure>
+
+
+
+<p>Lo que nos dice es que si tenemos dos itemset en que uno este contenido en el otro, por ejemplo </p>
+
+
+
+<p>I={platanos, revistas, manzanas} </p>
+
+
+
+<p>J={platanos, manzanas}</p>
+
+
+
+<p>Es decir, es más frecuente o igual que ocurra J, que ocurra I</p>
+
+
+
+<h3 class="wp-block-heading"><strong>Propiedad de clausura descendente del soporte</strong></h3>
+
+
+
+<p>Todo subconjunto de un conjunto frecuente es frecuente. </p>
+
+
+
+<p></p>
+
+
+
+<p>Y como conclusión de las dos propiedades es que si un subconjunto no es frecuente, el superconjunto tampoco lo es.</p>
+
+
+
+<p></p>
+
+
+
+<h2 class="wp-block-heading">Confianza</h2>
+
+
+
+<p>Es la probabilidad de que al darse una transacción X, se tenga una transacción Y, es decir P(Y|X), se calcula de la siguiente manera:</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-4.png"><img data-attachment-id="556" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-4-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-4.png" data-orig-size="249,44" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-4" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-4.png?w=249" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-4.png?w=249" tabindex="0" role="button" loading="lazy" width="249" height="44" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-4.png?w=249" alt="" class="wp-image-556" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-4.png 249w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-4.png?w=150 150w" sizes="(max-width: 249px) 100vw, 249px"></a></figure>
+
+
+
+<h3 class="wp-block-heading"><strong>Propiedad de monotonía de la confianza</strong></h3>
+
+
+
+<p>Si tenemos :</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-5.png"><img data-attachment-id="558" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-5-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-5.png" data-orig-size="169,17" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-5" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-5.png?w=169" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-5.png?w=169" tabindex="0" role="button" loading="lazy" width="169" height="17" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-5.png?w=169" alt="" class="wp-image-558" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-5.png 169w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-5.png?w=150 150w" sizes="(max-width: 169px) 100vw, 169px"></a></figure>
+
+
+
+<p>Entonces sabemos que:</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-6.png"><img data-attachment-id="560" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-6-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-6.png" data-orig-size="348,19" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-6" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-6.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-6.png?w=348" tabindex="0" role="button" loading="lazy" width="348" height="19" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-6.png?w=348" alt="" class="wp-image-560" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-6.png 348w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-6.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-6.png?w=300 300w" sizes="(max-width: 348px) 100vw, 348px"></a></figure>
+
+
+
+<h2 class="wp-block-heading">Lift</h2>
+
+
+
+<p>El ultimo concepto que veremos es el lift, el lift es una forma de medir como de correlacionados están los eventos que presenta una regla.</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-7.png"><img data-attachment-id="562" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-7-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-7.png" data-orig-size="282,44" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-7" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-7.png?w=282" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-7.png?w=282" tabindex="0" role="button" loading="lazy" width="282" height="44" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-7.png?w=282" alt="" class="wp-image-562" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-7.png 282w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-7.png?w=150 150w" sizes="(max-width: 282px) 100vw, 282px"></a></figure>
+
+
+
+<p>Hay que tener en cuenta que si el Lift toma el valor:</p>
+
+
+
+<ul class="wp-block-list">
+<li>&lt;1 : Entonces la correlación es negativa</li>
+
+
+
+<li>=1 : Entonces la relación es fruto del azar</li>
+
+
+
+<li>&gt;1 : Entonces hay correlación y como más grande sea el número mayor es esta</li>
+</ul>
+
+
+
+<p>El lift es importante, ya que con el podremos evaluar que reglas son más interesantes y cuales son superfluas o negativas.</p>
+
+
+
+<h1 class="wp-block-heading">Algoritmo explicado con un ejemplo</h1>
+
+
+
+<p>Una vez tenemos claros los conceptos básicos, nos podemos poner a ver en que consiste el algoritmo. Este posee 2 partes</p>
+
+
+
+<ul class="wp-block-list">
+<li>Identificar todos los <em>itemsets</em> que ocurren con una frecuencia por encima de un determinado límite (<em>itemsets</em> frecuentes).</li>
+
+
+
+<li>Convertir esos <em>itemsets</em> frecuentes en reglas de asociación.</li>
+</ul>
+
+
+
+<p>Tranquilos que no voy a poner el pseudocódigo matemático de como se hace el algoritmo, vamos a hacerlo didáctico y lo veremos en un ejemplo, donde se entiende de manera intuitiva que se hace</p>
+
+
+
+<h2 class="wp-block-heading">Parte 1: identificar todos los itemsets frecuentes</h2>
+
+
+
+<p>Imagina que tienes las siguientes transacciones:</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-8.png"><img data-attachment-id="568" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-8/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-8.png" data-orig-size="128,171" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-8" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-8.png?w=128" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-8.png?w=128" tabindex="0" role="button" loading="lazy" width="128" height="171" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-8.png?w=128" alt="" class="wp-image-568"></a></figure>
+
+
+
+<p>Vemos que tenemos como elementos A, B, C y D . Ahora deberemos fijar un soporte mínimo, nosotros estableceremos que supere el 30% que es aproximadamente que al menos el conjunto de elementos esté en 3 transacciones</p>
+
+
+
+<p>Procedemos a calcular el soporte para cada uno de los posibles conjuntos de tamaño 1</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-10.png"><img data-attachment-id="573" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-10/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-10.png" data-orig-size="300,107" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-10" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-10.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-10.png?w=300" tabindex="0" role="button" loading="lazy" width="300" height="107" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-10.png?w=300" alt="" class="wp-image-573" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-10.png 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-10.png?w=150 150w" sizes="(max-width: 300px) 100vw, 300px"></a></figure>
+
+
+
+<p>Como esta vez todos lo cumple, no podamos casos y pasamos al caso donde el tamaño sea 2:</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-9.png"><img data-attachment-id="572" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-9/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-9.png" data-orig-size="300,151" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-9" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-9.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-9.png?w=300" tabindex="0" role="button" loading="lazy" width="300" height="151" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-9.png?w=300" alt="" class="wp-image-572" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-9.png 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-9.png?w=150 150w" sizes="(max-width: 300px) 100vw, 300px"></a></figure>
+
+
+
+<p>Los <em>itemsets</em> {A, B}, {B, C}, {B, D} y {C, D} superan el límite de soporte, por lo que son frecuentes. Los <em>itemsets</em> {A, C} y {A, D} no superan el soporte mínimo por lo que se descartan. </p>
+
+
+
+<p><img id="equationview" title="This is the rendered form of the equation. You can not edit this directly. Right click will give you the option to save the image, and in most browsers you can drag the image onto your desktop or another program." src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Btabular%7D%7Bc%20c%20c%7D%20Itemset%20%28k%3D2%29%20%26Ocurrencias%20%26Soporte%5C%5C%20%5C%7BA%2C%20B%5C%7D%20%263%20%260.43%5C%5C%20%5C%7BB%2C%20C%5C%7D%20%263%20%260.43%5C%5C%20%5C%7BB%2C%20D%5C%7D%20%264%20%260.57%5C%5C%20%5C%7BC%2C%20D%5C%7D%20%263%20%260.43%5C%5C%20%5Cend%7Btabular%7D"></p>
+
+
+
+<p>Por las propiedades que hemos visto anteriormente, cualquier super conjunto que contenga {A,C} o {A,D} tampoco superara el soporte mínimo, por lo tanto solamente nos quedará un conjunto posible(y así ahorramos muchas operaciones):</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png"><img data-attachment-id="576" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-12/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png" data-orig-size="300,41" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-12" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png?w=300" tabindex="0" role="button" loading="lazy" width="300" height="41" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png?w=300" alt="" class="wp-image-576" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png?w=150 150w" sizes="(max-width: 300px) 100vw, 300px"></a></figure>
+
+
+
+<p>Y ya lo tendríamos calculado</p>
+
+
+
+<h2 class="wp-block-heading">Parte 2: Creación de reglas de asociación</h2>
+
+
+
+<p>Tenemos el siguiente conjuntos de items frecuentes</p>
+
+
+
+<p><img id="equationview" title="This is the rendered form of the equation. You can not edit this directly. Right click will give you the option to save the image, and in most browsers you can drag the image onto your desktop or another program." src="https://latex.codecogs.com/gif.latex?%5Cbegin%7Btabular%7D%7Bc%20c%20c%7D%20Itemset%20%28k%3D2%29%20%26Ocurrencias%20%26Soporte%5C%5C%20%5C%7BA%2C%20B%5C%7D%20%263%20%260.43%5C%5C%20%5C%7BB%2C%20C%5C%7D%20%263%20%260.43%5C%5C%20%5C%7BB%2C%20D%5C%7D%20%264%20%260.57%5C%5C%20%5C%7BC%2C%20D%5C%7D%20%263%20%260.43%5C%5C%20%5Cend%7Btabular%7D"></p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png"><img data-attachment-id="576" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-12/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png" data-orig-size="300,41" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-12" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png?w=300" tabindex="0" role="button" loading="lazy" width="300" height="41" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png?w=300" alt="" class="wp-image-576" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-12.png?w=150 150w" sizes="(max-width: 300px) 100vw, 300px"></a></figure>
+
+
+
+<p>Ahora vamos a crear las reglas a partir de ellas. Hemos obviada la tabla de k=1, ya que solamente la usaremos para ahorrar cálculos, ya que para poder crear una regla de asociación, necesitamos al menos 2 elementos. Vamos a calcular la confianza y solo nos quedaremos aquellas que superen el 70%(0.7)</p>
+
+
+
+<figure class="wp-block-table"><table><thead><tr><th>Reglas</th><th>Confianza</th><th>Lift</th></tr><tr><td>{A} =&gt; {B}</td><td>1</td><td>1.16</td></tr><tr><td>{B} =&gt; {A}</td><td>0.5</td><td>1.16</td></tr><tr><td>{B} =&gt; {C}</td><td>0.5</td><td>0.87</td></tr><tr><td>{C} =&gt; {B}</td><td>0.75</td><td>0.87</td></tr><tr><td>{B} =&gt; {D}</td><td>0.5</td><td>0.93</td></tr><tr><td>{D} =&gt; {B}</td><td>0.6</td><td>0.93</td></tr><tr><td>{C} =&gt; {D}</td><td>0.75</td><td>1.06</td></tr><tr><td>{D} =&gt; {C}</td><td>0.6</td><td>1.06</td></tr></thead></table></figure>
+
+
+
+<p>Por lo tanto las reglas que cumplen la confianza mínima serían</p>
+
+
+
+<p>Empezaremos con las reglas que obtenemos de k = 2</p>
+
+
+
+<figure class="wp-block-table"><table><thead><tr><th>Reglas</th><th>Confianza</th><th>Lift</th></tr></thead><tbody><tr><td>{A} =&gt; {B}</td><td>1</td><td>1.16</td></tr><tr><td>{C} =&gt; {B}</td><td>0.75</td><td>0.87</td></tr><tr><td>{C} =&gt; {D}</td><td>0.75</td><td>1.06</td></tr></tbody></table></figure>
+
+
+
+<p>Ahora vamos a ver las reglas generadas por k = 3</p>
+
+
+
+<figure class="wp-block-table"><table><thead><tr><th>Reglas</th><th>Confianza</th><th>Lift</th></tr><tr><td>{B} =&gt; {C,D}</td><td>0.5</td><td>0.78</td></tr><tr><td>{C,D} =&gt; {B}</td><td>1</td><td>0.78</td></tr><tr><td>{C} =&gt; {B,D}</td><td>0.75</td><td>0.89</td></tr><tr><td>{B,D} =&gt; {C}</td><td>0.75</td><td>0.89</td></tr><tr><td>{D} =&gt; {B,C}</td><td>0.6</td><td>0.94</td></tr><tr><td>{B,C} =&gt; {D}</td><td>1</td><td>0.94</td></tr></thead></table></figure>
+
+
+
+<p>Si eliminamos la reglas que no cumple el &gt; 60% de confianza :</p>
+
+
+
+<figure class="wp-block-table"><table><thead><tr><th>Reglas</th><th>Confianza</th><th>Lift</th></tr><tr><td>{C,D} =&gt; {B}</td><td>1</td><td>0.78</td></tr><tr><td>{C} =&gt; {B,D}</td><td>0.75</td><td>0.89</td></tr><tr><td>{B,D} =&gt; {C}</td><td>0.75</td><td>0.89</td></tr><tr><td>{B,C} =&gt; {D}</td><td>1</td><td>0.94</td></tr></thead></table></figure>
+
+
+
+<p>Ahora es cuando entra en juego el lift y vemos que las únicas reglas que tenemos interesantes son {A}=&gt;{B} y {C}=&gt;{D}, siendo las dos, seguramente propias del azar.</p>
+
+
+
+<h1 class="wp-block-heading">Caso práctico y como trabajar con esto</h1>
+
+
+
+<p>Si has llegado hasta aquí, ¡enhorabuena!, ahora tienes una idea de como hacer apriori a mano, pero esto no es práctico. Programar el algoritmo puede ser un buen ejercicio para esas noches que no se puede dormir, pero en python lo tenemos ya programado por grandes profesionales, que han optimizado mucho más de lo que podemos imaginar. Por este motivo vamos a ver como trabajaremos en python.</p>
+
+
+
+<p>Nota: para trabajar necesitaremos pandas y la librería mlxtend</p>
+
+
+
+<p>Vamos a empezar leyendo el fichero que consiste en una copia de los datos de las compras que se han realizado en la web:</p>
+
+
+
+<pre class="wp-block-code"><code>import pandas as pd
+from mlxtend.frequent_patterns import apriori
+from mlxtend.frequent_patterns import association_rules
+
+df1 = pd.read_csv('data/data-2.csv', encoding="ISO-8859-1")
+df1.head()</code></pre>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-14.png"><img data-attachment-id="592" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-14/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-14.png" data-orig-size="866,171" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-14" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-14.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-14.png?w=640" tabindex="0" role="button" loading="lazy" width="866" height="171" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-14.png?w=866" alt="" class="wp-image-592" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-14.png 866w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-14.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-14.png?w=300 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-14.png?w=768 768w" sizes="(max-width: 866px) 100vw, 866px"></a></figure>
+
+
+
+<p>Como siempre, deberemos preparar los datos, filtrando las condiciones que necesitamos(en este caso queremos solamente transacciones francesas), limpiando aquellos que la cantidad sea mayor que 0, arreglando descripciones…</p>
+
+
+
+<p><img></p>
+
+
+
+<p>Una vez los datos ya los tenemos preparados, para poder trabajar en apriori deberemos darle la vuelta a la tabla, de manera que las columnas sean la descripción, el indice sea el número de factura y el valor la cantidad</p>
+
+
+
+<pre class="wp-block-code"><code>basket = pd.pivot_table(data=df1,index='InvoiceNo',columns='Description',values='Quantity', aggfunc='sum',fill_value=0)</code></pre>
+
+
+
+<figure class="wp-block-image size-large is-resized"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-15.png"><img data-attachment-id="595" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-15/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-15.png" data-orig-size="1069,223" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-15" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-15.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-15.png?w=640" tabindex="0" role="button" loading="lazy" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-15.png?w=1024" alt="" class="wp-image-595" width="670" height="139" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-15.png?w=1024 1024w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-15.png?w=666 666w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-15.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-15.png?w=300 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-15.png?w=768 768w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-15.png 1069w" sizes="(max-width: 670px) 100vw, 670px"></a></figure>
+
+
+
+<p>Ya casi lo tenemos, como habíamos puesto que el valor era la cantidad(para así poner algo). Lo vamos a arreglar de manera que sea binario, es decir, 1 si hay compra 0 si no lo hay</p>
+
+
+
+<pre class="wp-block-code"><code>def convert_into_binary(x):
+    if x &gt; 0:
+        return 1
+    else:
+        return 0
+
+basket_sets = basket.applymap(convert_into_binary)</code></pre>
+
+
+
+<p>Y con los datos preparados ya podemos aplicar el algoritmo apriori, con un soporte mínimo del 12%</p>
+
+
+
+<pre class="wp-block-code"><code>frequent_itemsets = apriori(basket_sets, min_support=0.12, use_colnames=True)</code></pre>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-17.png"><img data-attachment-id="600" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-17/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-17.png" data-orig-size="438,469" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-17" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-17.png?w=280" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-17.png?w=438" tabindex="0" role="button" loading="lazy" width="438" height="469" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-17.png?w=438" alt="" class="wp-image-600" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-17.png 438w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-17.png?w=140 140w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-17.png?w=280 280w" sizes="(max-width: 438px) 100vw, 438px"></a></figure>
+
+
+
+<p>Con esta información, procedemos a crear las reglas de asociación usando como métrica lift</p>
+
+
+
+<pre class="wp-block-code"><code>rules_mlxtend = association_rules(frequent_itemsets, metric="lift", min_threshold=1)</code></pre>
+
+
+
+<figure class="wp-block-table"><table><thead><tr><th></th><th>antecedents</th><th>consequents</th><th>antecedent support</th><th>consequent support</th><th>support</th><th>confidence</th><th>lift</th><th>leverage</th><th>conviction</th></tr></thead><tbody><tr><th>0</th><td>(SET/6 RED SPOTTY PAPER CUPS)</td><td>(SET/6 RED SPOTTY PAPER PLATES)</td><td>0.137755</td><td>0.127551</td><td>0.122449</td><td>0.888889</td><td>6.968889</td><td>0.104878</td><td>7.852041</td></tr><tr><th>1</th><td>(SET/6 RED SPOTTY PAPER PLATES)</td><td>(SET/6 RED SPOTTY PAPER CUPS)</td><td>0.127551</td><td>0.137755</td><td>0.122449</td><td>0.960000</td><td>6.968889</td><td>0.104878</td><td>21.556122</td></tr></tbody></table></figure>
+
+
+
+<p>Tenemos 2 reglas altamente correlacionadas y además que tiene sentido</p>
+
+
+
+<p>Si compran el set de 6 vasos rojos de papel con topitos blancos, es muy probable que también compren los platos con la misma decoración, o al revés.</p>
+
+
+
+<h2 class="wp-block-heading">Conclusión</h2>
+
+
+
+<p>Hemos visto un poco de teoría sobre el algoritmo apriori, hemos realizado a mano un ejemplo para verlo en funcionamiento y finalmente le hemos dicho a python que lo calcule. Espero que esto os ayude a poder aplicar este algoritmo y en especial a tener una idea básica del porque de las cosas.</p>
+
+
+
+<p>Por último quiero remarcar algo que a mucha gente se le olvida, correlación no implica causalidad, ya que hay una correlación entre el número de piratas y la temperatura global</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-20.png"><img data-attachment-id="607" data-permalink="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/imagen-20/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-20.png" data-orig-size="768,483" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-20" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-20.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-20.png?w=640" tabindex="0" role="button" loading="lazy" width="768" height="483" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-20.png?w=768" alt="" class="wp-image-607" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-20.png 768w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-20.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/02/imagen-20.png?w=300 300w" sizes="(max-width: 768px) 100vw, 768px"></a></figure>
+
+
+
+<p>Pero que haya correlación no implica que sea la causa, ¡nadie en su sano juicio pensaría que aumentar el número de piratas disminuiría la temperatura global!</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-541" class="share-twitter sd-button share-icon" href="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/?share=twitter" target="_blank" title="Haz clic para compartir en Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-541" class="share-facebook sd-button share-icon" href="https://elcodigoperfecto.blog/2023/03/06/machine-learning-apriori-un-algoritmo-para-generar-reglas-de-asociacion/?share=facebook" target="_blank" title="Haz clic para compartir en Facebook"><span>Facebook</span></a></li><li class="share-end"></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-93837551-541-669f0392a8acc" data-src="//widgets.wp.com/likes/index.html?ver=20240723#blog_id=93837551&amp;post_id=541&amp;origin=elcodigoperfecto.wordpress.com&amp;obj_id=93837551-541-669f0392a8acc&amp;domain=elcodigoperfecto.blog" data-name="like-post-frame-93837551-541-669f0392a8acc" data-title="Me gusta o Compartir"><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Me gusta</span></span> <span class="loading">Cargando...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+</div></div>											</div>

@@ -1,0 +1,147 @@
+Python: ¿Se puede actualizar la versión del código automáticamente?
+ 
+<div class="entry-content">
+						
+<p>¡Hola!</p>
+
+
+
+<p></p>
+
+
+
+<p>Python es un lenguaje de programación en el que cada año aparece una nueva versión y siempre nos vemos en la tesitura si vale la pena actualizar de versión o no. Por falta de tiempo, porque ya funciona o simplemente por el hecho que no suele apetecer mantener el código nos vemos con que este se queda obsoleto, que no cumple el PEP y con dificultades de poderlo actualizar.</p>
+
+
+
+<p>Por este motivo os traigo 2 herramientas que actualizarán de manera automática todo el código a la versión de Python deseada y además pondrán el código cumpliendo el PEP, estas son:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Pyupgrade</li>
+
+
+
+<li>Autoflake</li>
+</ul>
+
+
+
+<p></p>
+
+
+
+<h2 class="wp-block-heading">Pyupgrade</h2>
+
+
+
+<p>Es una herramienta que se encarga de actualizar automáticamente la sintaxis a versiones más modernas de Python. Su funcionamiento es muy simple</p>
+
+
+
+<p>Lo instalamos:</p>
+
+
+
+<pre class="wp-block-code"><code>pip install pyupgrade</code></pre>
+
+
+
+<p>Y para ejecutarlo solo debemos aplicar en la consola</p>
+
+
+
+<pre class="wp-block-code"><code>pyupgrade fichero.py --pyXX-plus</code></pre>
+
+
+
+<p>donde XX es la versión. </p>
+
+
+
+<h3 class="wp-block-heading">Ejemplo</h3>
+
+
+
+<p>El siguiente código escrito en Python 3.6 es correcto hasta la versión 3.8</p>
+
+
+
+<pre class="wp-block-code"><code>from typing import Dict, List, Optional, Union
+
+x: Dict[str, int] = {"a": 1}
+
+y: Union[int, float] = 2.2
+
+z: List[Optional[int]] = [1, None, 3]</code></pre>
+
+
+
+<p>Si queremos pasar a la versión 3.11 solo debemos aplicar</p>
+
+
+
+<pre class="wp-block-code"><code>pyupgrade example.py --py311-plus</code></pre>
+
+
+
+<p>El código se actualizará y quedará </p>
+
+
+
+<pre class="wp-block-code"><code>from typing import Dict, List, Optional, Union
+
+x: dict[str, int] = {"a": 1}
+
+y: int | float = 2.2
+
+z: list[int | None] = [1, None, 3]</code></pre>
+
+
+
+<h2 class="wp-block-heading">Autoflake</h2>
+
+
+
+<p>Esta herramienta elimina aquellos imports que ya no son necesarios. Para instalarlo:</p>
+
+
+
+<pre class="wp-block-code"><code>pip install autoflake</code></pre>
+
+
+
+<p>Y lo ejecutamos sobre nuestro código</p>
+
+
+
+<pre class="wp-block-code"><code>autoflake --in-place --remove-unused-variables example.py </code></pre>
+
+
+
+<p>Y veremos que automáticamente el código se ha reescrito a:</p>
+
+
+
+<pre class="wp-block-code"><code>x: dict[str, int] = {"a": 1}
+
+y: int | float = 2.2
+
+z: list[int | None] = [1, None, 3]</code></pre>
+
+
+
+<h2 class="wp-block-heading">Conclusión</h2>
+
+
+
+<p>Hemos visto dos herramientas que nos permiten de manera automática actualizar el código de versión, simplificando esta labor de manera importante. Mi opinión personal es que si tienes el código cubierto con test unitarios y quieres pasar a una versión superior de Python, esta herramienta te va a ayudar ha que lo puedas realizar en un tiempo récord y con mínimos errores.</p>
+
+
+
+<p></p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-480" class="share-twitter sd-button share-icon" href="https://elcodigoperfecto.blog/2023/02/13/python-se-puede-actualizar-la-version-del-codigo-automaticamente/?share=twitter" target="_blank" title="Haz clic para compartir en Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-480" class="share-facebook sd-button share-icon" href="https://elcodigoperfecto.blog/2023/02/13/python-se-puede-actualizar-la-version-del-codigo-automaticamente/?share=facebook" target="_blank" title="Haz clic para compartir en Facebook"><span>Facebook</span></a></li><li class="share-end"></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-93837551-480-669f0392a70f1" data-src="//widgets.wp.com/likes/index.html?ver=20240723#blog_id=93837551&amp;post_id=480&amp;origin=elcodigoperfecto.wordpress.com&amp;obj_id=93837551-480-669f0392a70f1&amp;domain=elcodigoperfecto.blog" data-name="like-post-frame-93837551-480-669f0392a70f1" data-title="Me gusta o Compartir"><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Me gusta</span></span> <span class="loading">Cargando...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+</div></div>											</div>

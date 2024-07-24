@@ -1,0 +1,243 @@
+¡Domina MLflow y lleva tus proyectos de Machine Learning al siguiente nivel! Guía completa para gestionar el ciclo de vida de tus modelos con éxito.
+ 
+<div class="entry-content">
+						
+<figure class="wp-block-image size-large is-resized"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-15.png"><img data-attachment-id="843" data-permalink="https://elcodigoperfecto.blog/2023/07/10/domina-mlflow-y-lleva-tus-proyectos-de-machine-learning-al-siguiente-nivel-guia-completa-para-gestionar-el-ciclo-de-vida-de-tus-modelos-con-exito/imagen-15-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-15.png" data-orig-size="1680,945" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-15" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-15.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-15.png?w=640" tabindex="0" role="button" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-15.png?w=1024" alt="" class="wp-image-843" width="760" height="427" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-15.png?w=1024 1024w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-15.png?w=760 760w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-15.png?w=1518 1518w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-15.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-15.png?w=300 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-15.png?w=768 768w" sizes="(max-width: 760px) 100vw, 760px"></a></figure>
+
+
+
+<p><strong>¿Qué es MLflow?</strong></p>
+
+
+
+<p>MLflow es una plataforma de código abierto desarrollada por Databricks para gestionar el ciclo de vida de los proyectos de Machine Learning. Esta herramienta permite a los profesionales y equipos de Machine Learning llevar un control de sus experimentos, reproducir resultados, empaquetar y desplegar modelos fácilmente, y compartir sus descubrimientos con otros miembros del equipo.</p>
+
+
+
+<p><strong>Origen y problema que soluciona</strong></p>
+
+
+
+<p>MLflow fue creado en 2018 por Databricks, la empresa detrás de Apache Spark. Ante la creciente complejidad y diversidad de herramientas y librerías en el ámbito del Machine Learning, MLflow surgió como una solución unificada y modular para simplificar la gestión de los proyectos y mejorar la colaboración en equipos de trabajo.</p>
+
+
+
+<p><strong>Ventajas frente a otras tecnologías</strong></p>
+
+
+
+<p>Algunas ventajas de MLflow frente a otras tecnologías son:</p>
+
+
+
+<ol class="wp-block-list">
+<li>Modularidad: MLflow se compone de cuatro componentes principales (MLflow Tracking, MLflow Projects, MLflow Models y MLflow Model Registry), lo que facilita su integración con diferentes etapas del ciclo de vida de los proyectos de Machine Learning.</li>
+
+
+
+<li>Soporte para múltiples lenguajes y frameworks: MLflow es compatible con Python, R, Java y Scala, y puede trabajar con una amplia gama de frameworks de Machine Learning, como TensorFlow, PyTorch y scikit-learn.</li>
+
+
+
+<li>Facilita la colaboración: MLflow permite a los equipos compartir experimentos, resultados y modelos de manera eficiente y organizada.</li>
+
+
+
+<li>Reproducibilidad: MLflow ayuda a garantizar que los experimentos y modelos sean reproducibles, lo que facilita la depuración y comparación de resultados.</li>
+
+
+
+<li>Fácil despliegue: MLflow facilita el despliegue de modelos en diferentes entornos y plataformas, como Kubernetes, Amazon SageMaker o Microsoft Azure ML.</li>
+</ol>
+
+
+
+<p><strong>Por qué usar MLflow y no otras</strong></p>
+
+
+
+<p>MLflow es una opción ideal debido a su flexibilidad, soporte para múltiples lenguajes y frameworks, enfoque modular y facilidad de integración con diversas plataformas de despliegue. Además, al ser de código abierto y contar con una comunidad activa, MLflow sigue evolucionando y mejorando constantemente.</p>
+
+
+
+<p><strong>Casos de uso</strong></p>
+
+
+
+<ol class="wp-block-list">
+<li>Comparación y seguimiento de diferentes experimentos de Machine Learning en un proyecto.</li>
+
+
+
+<li>Compartir resultados y modelos entre miembros de un equipo de trabajo.</li>
+
+
+
+<li>Desplegar modelos de Machine Learning en diferentes plataformas y entornos.</li>
+
+
+
+<li>Mantener un registro de versiones de modelos y facilitar su actualización.</li>
+</ol>
+
+
+
+<p><strong>Cómo instalar MLflow</strong></p>
+
+
+
+<p>Para instalar MLflow en Python, puedes usar pip:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+pip install mlflow
+</pre></div>
+
+
+<p><strong>Cómo usar MLflow con Python</strong></p>
+
+
+
+<p>Para comenzar a utilizar MLflow en tus proyectos de Machine Learning con Python, simplemente importa el módulo <code>mlflow</code> y comienza a usar sus funciones y clases.</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+import mlflow
+</pre></div>
+
+
+<p><strong>Ejemplos básicos</strong></p>
+
+
+
+<ol class="wp-block-list">
+<li>Registrar un experimento y registrar métricas:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+import mlflow
+
+with mlflow.start_run():
+    mlflow.log_param("param1", 1)
+    mlflow.log_metric("accuracy", 0.95)
+</pre></div>
+
+
+<ol class="wp-block-list" start="2">
+<li>Guardar un modelo de scikit-learn:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+import mlflow.sklearn
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+iris = load_iris()
+X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.3)
+clf = RandomForestClassifier()
+clf.fit(X_train, y_train)
+
+with mlflow.start_run():
+    mlflow.sklearn.log_model(clf, "random_forest_model")
+</pre></div>
+
+
+<ol class="wp-block-list" start="3">
+<li>Cargar un modelo guardado y hacer predicciones:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+import mlflow.sklearn
+
+model = mlflow.sklearn.load_model("random_forest_model")
+predictions = model.predict(X_test)
+</pre></div>
+
+
+<ol class="wp-block-list" start="4">
+<li>Crear un proyecto de MLflow:</li>
+</ol>
+
+
+
+<p>Crea un archivo <code>MLproject</code> en la raíz de tu proyecto con el siguiente contenido:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+name: my_ml_project
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      data_path: str
+    command: "python main.py --data_path {data_path}"
+</pre></div>
+
+
+<p><strong>Ejemplos avanzados</strong></p>
+
+
+
+<ol class="wp-block-list">
+<li>Crear un registro de modelos personalizado:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+import mlflow.pyfunc
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+
+class RandomForestModelWrapper(mlflow.pyfunc.PythonModel):
+    def load_context(self, context):
+        self.model = RandomForestClassifier()
+        self.model.fit(context.artifacts["X_train"], context.artifacts["y_train"])
+
+    def predict(self, context, model_input):
+        return self.model.predict(model_input)
+
+# Entrenamiento del modelo
+X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.3)
+artifacts = {"X_train": X_train, "y_train": y_train}
+
+# Guardar el modelo
+model_path = "custom_model"
+mlflow.pyfunc.save_model(path=model_path, python_model=RandomForestModelWrapper(), artifacts=artifacts)
+</pre></div>
+
+
+<ol class="wp-block-list" start="2">
+<li>Servir un modelo de MLflow como API REST:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+mlflow models serve -m custom_model -p 1234
+</pre></div>
+
+
+<ol class="wp-block-list" start="3">
+<li>Integración de MLflow con Databricks:</li>
+</ol>
+
+
+
+<p>Para usar MLflow en un entorno de Databricks, sigue las <a href="https://docs.databricks.com/applications/mlflow/index.html">instrucciones oficiales</a> para configurar la integración y autenticación.</p>
+
+
+
+<p></p>
+
+
+
+<p>En resumen, MLflow es una herramienta increíblemente útil para gestionar el ciclo de vida de tus proyectos de machine learning. No solo te permite llevar un seguimiento de tus experimentos, sino que también facilita el proceso de guardar y cargar modelos, y de implementarlos en producción. Además, su integración con otras herramientas y plataformas, como Databricks, amplía aún más su utilidad. Con esta guía práctica y los ejemplos proporcionados, estás listo para comenzar a sacar el máximo provecho de MLflow en tus proyectos de machine learning.</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-842" class="share-twitter sd-button share-icon" href="https://elcodigoperfecto.blog/2023/07/10/domina-mlflow-y-lleva-tus-proyectos-de-machine-learning-al-siguiente-nivel-guia-completa-para-gestionar-el-ciclo-de-vida-de-tus-modelos-con-exito/?share=twitter" target="_blank" title="Haz clic para compartir en Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-842" class="share-facebook sd-button share-icon" href="https://elcodigoperfecto.blog/2023/07/10/domina-mlflow-y-lleva-tus-proyectos-de-machine-learning-al-siguiente-nivel-guia-completa-para-gestionar-el-ciclo-de-vida-de-tus-modelos-con-exito/?share=facebook" target="_blank" title="Haz clic para compartir en Facebook"><span>Facebook</span></a></li><li class="share-end"></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-93837551-842-669f039124ed1" data-src="//widgets.wp.com/likes/index.html?ver=20240723#blog_id=93837551&amp;post_id=842&amp;origin=elcodigoperfecto.wordpress.com&amp;obj_id=93837551-842-669f039124ed1&amp;domain=elcodigoperfecto.blog" data-name="like-post-frame-93837551-842-669f039124ed1" data-title="Me gusta o Compartir"><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Me gusta</span></span> <span class="loading">Cargando...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+</div></div>											</div>

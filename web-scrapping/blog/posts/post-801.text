@@ -1,0 +1,170 @@
+¡Conviértete en un maestro del web scraping! Aprende a extraer datos con Python y Beautiful Soup como un experto
+ 
+<div class="entry-content">
+						
+<p>¿Quieres aprender a extraer datos de sitios web de manera eficiente y sencilla? ¡Estás en el lugar correcto! En este artículo, te enseñaremos cómo dominar el arte del web scraping con Python y Beautiful Soup, una popular librería que hará que el proceso sea pan comido. Prepárate para sumergirte en el mundo del web scraping con ejemplos prácticos, tanto básicos como avanzados. ¡Vamos a ello!</p>
+
+
+
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-10.png"><img data-attachment-id="802" data-permalink="https://elcodigoperfecto.blog/2023/06/05/conviertete-en-un-maestro-del-web-scraping-aprende-a-extraer-datos-con-python-y-beautiful-soup-como-un-experto/imagen-10-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-10.png" data-orig-size="1280,720" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-10" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-10.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-10.png?w=640" tabindex="0" role="button" width="1024" height="576" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-10.png?w=1024" alt="" class="wp-image-802" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-10.png?w=1024 1024w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-10.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-10.png?w=300 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-10.png?w=768 768w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-10.png 1280w" sizes="(max-width: 1024px) 100vw, 1024px"></a></figure>
+
+
+
+<h2 class="wp-block-heading">¿Qué es Beautiful Soup?</h2>
+
+
+
+<p>Beautiful Soup es una librería de Python que se utiliza para extraer información de archivos HTML y XML. Facilita la navegación y búsqueda a través de la estructura de estos archivos, permitiendo extraer datos de manera eficiente y rápida.</p>
+
+
+
+<p>Ventajas de Beautiful Soup frente a otras librerías:</p>
+
+
+
+<ol class="wp-block-list">
+<li><strong>Facilidad de uso</strong>: Beautiful Soup es fácil de aprender y usar, incluso para principiantes en web scraping. Su sintaxis es clara e intuitiva.</li>
+
+
+
+<li><strong>Versatilidad</strong>: Beautiful Soup puede trabajar con diferentes parsers, como lxml y html5lib, lo que permite adaptarse a diferentes necesidades y estructuras de archivos.</li>
+
+
+
+<li><strong>Robustez</strong>: Esta librería es capaz de manejar documentos HTML mal formados y extraer información de ellos sin problemas.</li>
+</ol>
+
+
+
+<h2 class="wp-block-heading">Motivos para usar Beautiful Soup:</h2>
+
+
+
+<p>Beautiful Soup destaca por su facilidad de uso, versatilidad, robustez y compatibilidad, lo que la convierte en una excelente opción para el web scraping, tanto para principiantes como para expertos.</p>
+
+
+
+<h2 class="wp-block-heading">Cómo instalar Beautiful Soup:</h2>
+
+
+
+<p>Para instalar Beautiful Soup, simplemente ejecuta el siguiente comando en tu terminal o símbolo del sistema:</p>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+pip install beautifulsoup4
+</pre></div>
+
+
+<h2 class="wp-block-heading">Cómo usar Beautiful Soup:</h2>
+
+
+
+<ol class="wp-block-list">
+<li>Importa las librerías necesarias:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+from bs4 import BeautifulSoup
+import requests
+</pre></div>
+
+
+<ol class="wp-block-list" start="2">
+<li>Realiza una solicitud HTTP para obtener el contenido HTML del sitio web:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+url = "https://ejemplo.com"
+respuesta = requests.get(url)
+contenido = respuesta.content
+</pre></div>
+
+
+<ol class="wp-block-list" start="3">
+<li>Crea un objeto BeautifulSoup y parsea el contenido HTML:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+soup = BeautifulSoup(contenido, "html.parser")
+</pre></div>
+
+
+<h2 class="wp-block-heading">Ejemplos básicos:</h2>
+
+
+
+<ol class="wp-block-list">
+<li>Extraer el título de una página:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+titulo = soup.title.string
+print(titulo)
+</pre></div>
+
+
+<ol class="wp-block-list" start="2">
+<li>Buscar todos los enlaces de una página:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+enlaces = soup.find_all("a")
+for enlace in enlaces:
+    print(enlace.get("href"))
+
+</pre></div>
+
+
+<h2 class="wp-block-heading">Ejemplos avanzados:</h2>
+
+
+
+<ol class="wp-block-list">
+<li>Extraer información específica de una tabla:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+tabla = soup.find("table", {"class": "mi-clase"})
+filas = tabla.find_all("tr")
+for fila in filas:
+    celdas = fila.find_all("td")
+    if celdas:
+        dato1 = celdas[0].text.strip()
+        dato2 = celdas[1].text.strip()
+        print(dato1, dato2)
+
+</pre></div>
+
+
+<ol class="wp-block-list" start="2">
+<li>Paginación y extracción de múltiples páginas:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+def extraer_datos(url):
+    # Aquí va el código para extraer los datos de una página
+    respuesta = requests.get(url)
+    contenido = respuesta.content
+    soup = BeautifulSoup(contenido, "html.parser")
+    # Aquí continúa el proceso de extracción
+
+for pagina in range(1, 6):  # Suponiendo que hay 5 páginas
+    url = f"https://ejemplo.com/lista-pag-{pagina}"
+    extraer_datos(url)
+
+</pre></div>
+
+
+<p>Ahora que conoces las bondades de Beautiful Soup y has aprendido a utilizarla con ejemplos básicos y avanzados, ¡estás listo para adentrarte en el fascinante mundo del web scraping! No hay duda de que Beautiful Soup es una herramienta poderosa y versátil que te ayudará a extraer datos de sitios web de manera eficiente y sencilla. ¡Diviértete y explora todo lo que puedes lograr con esta fantástica librería!</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-801" class="share-twitter sd-button share-icon" href="https://elcodigoperfecto.blog/2023/06/05/conviertete-en-un-maestro-del-web-scraping-aprende-a-extraer-datos-con-python-y-beautiful-soup-como-un-experto/?share=twitter" target="_blank" title="Haz clic para compartir en Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-801" class="share-facebook sd-button share-icon" href="https://elcodigoperfecto.blog/2023/06/05/conviertete-en-un-maestro-del-web-scraping-aprende-a-extraer-datos-con-python-y-beautiful-soup-como-un-experto/?share=facebook" target="_blank" title="Haz clic para compartir en Facebook"><span>Facebook</span></a></li><li class="share-end"></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-93837551-801-669f0391913aa" data-src="//widgets.wp.com/likes/index.html?ver=20240723#blog_id=93837551&amp;post_id=801&amp;origin=elcodigoperfecto.wordpress.com&amp;obj_id=93837551-801-669f0391913aa&amp;domain=elcodigoperfecto.blog" data-name="like-post-frame-93837551-801-669f0391913aa" data-title="Me gusta o Compartir"><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Me gusta</span></span> <span class="loading">Cargando...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+</div></div>											</div>

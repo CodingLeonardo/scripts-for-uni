@@ -1,0 +1,269 @@
+Delta Lake y Python: ¡Domina el manejo de Big Data con esta poderosa combinación!
+ 
+<div class="entry-content">
+						
+<figure class="wp-block-image size-large"><a href="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-14.png"><img data-attachment-id="834" data-permalink="https://elcodigoperfecto.blog/2023/07/03/delta-lake-y-python-domina-el-manejo-de-big-data-con-esta-poderosa-combinacion/imagen-14-2/" data-orig-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-14.png" data-orig-size="1024,457" data-comments-opened="1" data-image-meta='{"aperture":"0","credit":"","camera":"","caption":"","created_timestamp":"0","copyright":"","focal_length":"0","iso":"0","shutter_speed":"0","title":"","orientation":"0"}' data-image-title="imagen-14" data-image-description="" data-image-caption="" data-medium-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-14.png?w=300" data-large-file="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-14.png?w=640" tabindex="0" role="button" width="1024" height="457" src="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-14.png?w=1024" alt="" class="wp-image-834" srcset="https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-14.png 1024w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-14.png?w=150 150w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-14.png?w=300 300w, https://elcodigoperfecto.blog/wp-content/uploads/2023/03/imagen-14.png?w=768 768w" sizes="(max-width: 1024px) 100vw, 1024px"></a></figure>
+
+
+
+<p><strong>Introducción</strong></p>
+
+
+
+<p>Delta Lake es un proyecto de código abierto que brinda confiabilidad y escalabilidad a los sistemas de almacenamiento de datos de Apache Spark. Al combinar Delta Lake con Python, podrás manejar grandes volúmenes de datos de manera eficiente y confiable.</p>
+
+
+
+<p><strong>Origen de Delta Lake y problemas que soluciona</strong></p>
+
+
+
+<p>Delta Lake fue creado por Databricks para abordar los desafíos que enfrentan los sistemas de datos distribuidos. Algunos de estos problemas incluyen la falta de esquemas, la dificultad para realizar cambios en los datos y la inconsistencia de los datos. Delta Lake soluciona estos problemas al proporcionar características como ACID transactions, esquemas de evolución y auditorías de datos.</p>
+
+
+
+<p><strong>Ventajas de Delta Lake frente a otras tecnologías</strong></p>
+
+
+
+<p>Delta Lake ofrece varias ventajas sobre otras tecnologías de almacenamiento de datos:</p>
+
+
+
+<ol class="wp-block-list">
+<li>Transacciones ACID: Asegura que los datos sean consistentes incluso en entornos distribuidos y en caso de fallos.</li>
+
+
+
+<li>Esquemas de evolución: Permite realizar cambios en los esquemas de los datos sin afectar a los usuarios ni a las aplicaciones existentes.</li>
+
+
+
+<li>Auditorías de datos: Facilita el seguimiento y control de los cambios en los datos a lo largo del tiempo.</li>
+
+
+
+<li>Integración con Apache Spark: Permite aprovechar todas las capacidades de Spark para el procesamiento de datos en paralelo.</li>
+</ol>
+
+
+
+<p><strong>Por qué usar Delta Lake y no otras librerías</strong></p>
+
+
+
+<p>Delta Lake es una opción sólida para el manejo de grandes cantidades de datos debido a su confiabilidad, escalabilidad y facilidad de uso. Además, al integrarse con Apache Spark, permite el procesamiento de datos en paralelo, lo que agiliza las operaciones de lectura y escritura.</p>
+
+
+
+<p><strong>Casos de uso</strong></p>
+
+
+
+<p>Delta Lake es útil en una amplia variedad de casos de uso, como:</p>
+
+
+
+<ol class="wp-block-list">
+<li>Almacenamiento de datos de eventos en tiempo real.</li>
+
+
+
+<li>Almacenamiento de datos históricos y su análisis.</li>
+
+
+
+<li>Unificación de flujos de datos por lotes y en tiempo real.</li>
+
+
+
+<li>Creación de sistemas de recomendación en base a datos de usuarios y comportamientos.</li>
+</ol>
+
+
+
+<p><strong>Cómo instalar Delta Lake</strong></p>
+
+
+
+<p>Delta Lake es una extensión de Apache Spark, por lo que necesitarás instalar Spark primero. Para instalar Spark y Delta Lake, sigue estos pasos:</p>
+
+
+
+<ol class="wp-block-list">
+<li>Instala PySpark y las dependencias necesarias:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+pip install pyspark
+</pre></div>
+
+
+<ol class="wp-block-list" start="2">
+<li>Instala la última versión de Delta Lake:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+pip install delta-spark
+</pre></div>
+
+
+<p><strong>Cómo usar Delta Lake con Python</strong></p>
+
+
+
+<p>Una vez instalado Delta Lake, puedes usarlo con Python a través de PySpark:</p>
+
+
+
+<ol class="wp-block-list">
+<li>Importa PySpark y crea una sesión de Spark:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder \
+    .appName("Delta Lake con Python") \
+    .config("spark.jars.packages", "io.delta:delta-core_2.12:1.1.0") \
+    .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
+    .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
+    .getOrCreate()
+
+</pre></div>
+
+
+<ol class="wp-block-list" start="2">
+<li>Crea un DataFrame de Spark y escribe datos en Delta Lake:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+data = [("Python", 1), ("Delta Lake", 2), ("Big Data", 3)]
+columns = ["Tema", "Ranking"]
+
+df = spark.createDataFrame(data, columns)
+df.write.format("delta").mode("overwrite").save("/tmp/data")
+</pre></div>
+
+
+<ol class="wp-block-list" start="3">
+<li>Lee datos desde Delta Lake:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+df = spark.read.format("delta").load("/tmp/data")
+df.show()
+</pre></div>
+
+
+<p><strong>Ejemplos básicos</strong></p>
+
+
+
+<ol class="wp-block-list">
+<li>Crear una tabla Delta:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+data = [("Python", 1), ("Delta Lake", 2), ("Big Data", 3)]
+columns = ["Tema", "Ranking"]
+
+df = spark.createDataFrame(data, columns)
+df.write.format("delta").mode("overwrite").saveAsTable("temas_ranking")
+
+</pre></div>
+
+
+<ol class="wp-block-list" start="2">
+<li>Leer datos de una tabla Delta:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+df = spark.read.format("delta").table("temas_ranking")
+df.show()
+</pre></div>
+
+
+<ol class="wp-block-list" start="3">
+<li>Actualizar datos en una tabla Delta:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+from pyspark.sql.functions import expr
+
+update_data = [("Python", 4)]
+update_df = spark.createDataFrame(update_data, columns)
+
+delta_table = DeltaTable.forPath(spark, "/tmp/data")
+delta_table.alias("orig").merge(
+    update_df.alias("updates"), "orig.Tema = updates.Tema"
+).whenMatchedUpdate(
+    set={"Ranking": "updates.Ranking"}
+).execute()
+
+</pre></div>
+
+
+<ol class="wp-block-list" start="4">
+<li>Eliminar datos en una tabla Delta:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+delta_table.delete("Ranking = 3")
+</pre></div>
+
+
+<p><strong>Ejemplos avanzados</strong></p>
+
+
+
+<ol class="wp-block-list">
+<li>Realizar una auditoría de los cambios en los datos:</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+version_history = delta_table.history()
+version_history.show()
+</pre></div>
+
+
+<ol class="wp-block-list" start="2">
+<li>Realizar consultas temporales (Time Travel):</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+version_0_df = spark.read.format("delta").option("versionAsOf", 0).table("temas_ranking")
+version_0_df.show()
+</pre></div>
+
+
+<ol class="wp-block-list" start="3">
+<li>Compactar pequeños archivos en archivos más grandes (Optimize):</li>
+</ol>
+
+
+<div class="wp-block-syntaxhighlighter-code "><pre class="brush: plain; title: ; notranslate" title="">
+delta_table.optimize()
+</pre></div>
+
+
+<p><strong>Conclusión</strong></p>
+
+
+
+<p>Delta Lake y Python son, sin duda, una combinación poderosa para manejar grandes cantidades de datos. La confiabilidad, escalabilidad y facilidad de uso que ofrece Delta Lake, junto con la popularidad y versatilidad de Python, hacen de esta dupla una opción ideal para enfrentar los desafíos del Big Data en la actualidad. Al dominar esta combinación, podrás diseñar soluciones más eficientes y robustas para el almacenamiento y análisis de tus datos, tanto en tiempo real como por lotes. No dudes en explorar todas las posibilidades que Delta Lake y Python tienen para ofrecer y así mejorar tus habilidades en el mundo del Big Data. ¡Feliz procesamiento de datos!</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Comparte esto:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-833" class="share-twitter sd-button share-icon" href="https://elcodigoperfecto.blog/2023/07/03/delta-lake-y-python-domina-el-manejo-de-big-data-con-esta-poderosa-combinacion/?share=twitter" target="_blank" title="Haz clic para compartir en Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-833" class="share-facebook sd-button share-icon" href="https://elcodigoperfecto.blog/2023/07/03/delta-lake-y-python-domina-el-manejo-de-big-data-con-esta-poderosa-combinacion/?share=facebook" target="_blank" title="Haz clic para compartir en Facebook"><span>Facebook</span></a></li><li class="share-end"></ul></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded" id="like-post-wrapper-93837551-833-669f0391289dd" data-src="//widgets.wp.com/likes/index.html?ver=20240723#blog_id=93837551&amp;post_id=833&amp;origin=elcodigoperfecto.wordpress.com&amp;obj_id=93837551-833-669f0391289dd&amp;domain=elcodigoperfecto.blog" data-name="like-post-frame-93837551-833-669f0391289dd" data-title="Me gusta o Compartir"><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px;"><span class="button"><span>Me gusta</span></span> <span class="loading">Cargando...</span></div><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+</div></div>											</div>
